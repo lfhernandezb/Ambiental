@@ -25,3 +25,70 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+cd ~/Development/angular/
+
+ng new ambiental-fe
+
+cd ambiental-fe
+
+ng generate module layout
+cd src/app/layout/
+ng generate component layout
+ng generate component header
+ng generate component footer
+cd ../../../
+cd src/app/
+ng generate component page-not-found
+
+cd ../../../
+ng generate module company
+cd src/app/company/
+ng generate component company
+
+ng generate module company-routing
+
+cd ../../../
+
+cd src/app
+mkdir services
+cd services
+
+ng generate service company
+ng generate service project
+ng generate service finding
+ng generate service finding-state
+
+ng generate service auth.guard
+ng generate service authentication
+
+cd ../../../
+
+ng generate module project
+cd src/app/project/
+ng generate component project
+ng generate module project-routing
+
+cd ../../../
+ng generate module finding
+cd src/app/finding/
+ng generate component finding
+ng generate module finding-routing
+
+
+
+cd ../../../
+ng generate module alert
+cd src/app/alert
+ng generate component alert
+ng generate service alert
+
+# to use HttpClient
+
+in app.module.ts
+
+import {HttpClientModule} from '@angular/common/http';
+
+in class that will use it:
+
+import {HttpClient} from "@angular/common/http";

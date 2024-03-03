@@ -1,0 +1,44 @@
+<h3>Empresas</h3>
+<div>
+  <label>Criterio:
+    <input #seek [value]="criteria" />
+  </label>
+  <!-- (click) passes input value to add() and then clears the input -->
+  <!--button (click)="add(usuarioName.value); usuarioName.value=''">
+    add
+  </button-->
+  <button (click)="onSearch(seek.value)">
+    Buscar
+  </button>
+  <button (click)="onNew()">
+    Nueva
+  </button>
+</div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>URL</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let company of collection | paginate: pagConfig">
+        <td>{{ company.name }}</td>
+        <td>
+            <a (click)="detail(company.companyId)"><img src="./assets/images/detail-icon-png-32x32.png" alt="" title="Detalle" border="0" width=32 height=32 /></a>
+            <!--a [href]="backendUrl + '/api/download/' + url.descripcion" ><img src="./assets/images/download-icon-png-32x32.png" alt="" title="Bajar Formulario" border="0" width=32 height=32 /></a-->
+            <!--a (click)="download(url.path, url.formFileName)"><img src="./assets/images/download-icon-png-32x32.png" alt="" title="Bajar Formulario" border="0" width=32 height=32 /></a-->
+            <!--a [routerLink]="['/formulario', url.descripcion, {currentPage: pagConfig.currentPage, numberOfPages: pagConfig.numberOfPages, totalItems: pagConfig.totalItems, criteria: seek.value}]"><img src="./assets/images/search-icon-small-16x16.svg.med.png" alt="" title="Detalle" border="0" width=16 height=16 /></a-->
+            <!--a href="<{$receiver}>?do=VerVehiculos&id={{ usuario.idUsuario }}"><img src="images/car.png" alt="" title="Ver Veh&iacute;culos" border=0 width=16 height=16 /></a-->
+            <!--a href="<{$receiver}>?do=VerLogs&id={{ usuario.idUsuario }}"><img src="images/log.png" alt="" title="Ver Logs" border=0 width=16 height=16 /></a-->
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <alert></alert>
+  <ngx-spinner name="sp3" [fullScreen]="true" type="ball-spin-clockwise" size="medium" bdColor="rgba(51,51,51,0.0)" color="#00f"></ngx-spinner>
+  <!--pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls-->
+  <pagination-controls [autoHide]="true" (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
+
+
