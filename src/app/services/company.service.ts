@@ -20,14 +20,25 @@ export class CompanyService {
 
   constructor(private httpClient: HttpClient) { }
 
+  public getByCompanyId(companyId: string): Observable<Company> {
+  	//argument: string = 'criteria=';
+    if (!companyId) {
+      companyId = '';
+    }
+    // console.log('environment.apiCompany: '+environment.apiCompany);
+    return this.httpClient.get<Company>(environment.apiUrl+'/api/companies/'+companyId, httpOptions); //get(environment.apiCompany+'/api/companys?criteria='+criteria, httpOptions);
+    //return this.httpClient.get<Company[]>(environment.apiUrl+'/api/companies/all', httpOptions); //get(environment.apiCompany+'/api/companys?criteria='+criteria, httpOptions);
+  }
+
+
   public listCompanies(criteria: string): Observable<Company[]> {
   	//argument: string = 'criteria=';
     if (!criteria) {
       criteria = '';
     }
     // console.log('environment.apiCompany: '+environment.apiCompany);
-    // *** return this.httpClient.get<Company[]>(environment.apiUrl+'/api/companys?criteria='+criteria, httpOptions); //get(environment.apiCompany+'/api/companys?criteria='+criteria, httpOptions);
-    return this.httpClient.get<Company[]>(environment.apiUrl+'/api/companies/all', httpOptions); //get(environment.apiCompany+'/api/companys?criteria='+criteria, httpOptions);
+    return this.httpClient.get<Company[]>(environment.apiUrl+'/api/companies/param?name='+criteria, httpOptions); //get(environment.apiCompany+'/api/companys?criteria='+criteria, httpOptions);
+    //return this.httpClient.get<Company[]>(environment.apiUrl+'/api/companies/all', httpOptions); //get(environment.apiCompany+'/api/companys?criteria='+criteria, httpOptions);
   }
 
   public existsCompany(company: string): Observable<boolean> {
@@ -54,4 +65,10 @@ export class CompanyService {
     return of(false);
   }
 
+  public save(company: Company): Observable<Company> {
+  	//argument: string = 'criteria=';
+    // console.log('environment.apiCompany: '+environment.apiCompany);
+    return this.httpClient.post<Company>(environment.apiUrl+'/api/companies/save', company, httpOptions); //get(environment.apiCompany+'/api/companys?criteria='+criteria, httpOptions);
+    //return this.httpClient.get<Company[]>(environment.apiUrl+'/api/companies/all', httpOptions); //get(environment.apiCompany+'/api/companys?criteria='+criteria, httpOptions);
+  }
 }

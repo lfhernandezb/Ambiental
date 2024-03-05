@@ -1,6 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { User } from './interfaces/user';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from './services/authentication.service';
 import { BnNgIdleService } from 'bn-ng-idle';
 import { environment } from 'src/environments/environment';
@@ -16,6 +16,7 @@ export class AppComponent {
 
   constructor(
       private router: Router,
+      private route: ActivatedRoute,
       private authenticationService: AuthenticationService,
       private bnIdle: BnNgIdleService
   ) {
@@ -25,6 +26,10 @@ export class AppComponent {
   // initiate it in your component OnInit
   ngOnInit(): void {
 
+    if (!this.authenticationService.isAuthenticated()) {
+      this.router.navigate(['/login']);
+    }
+
     this.authenticationService.user.subscribe(x => {
       // sesion aun activa
       this.user = x;
@@ -32,7 +37,7 @@ export class AppComponent {
       // activamos session timeout
       this.bnIdle.startWatching(environment.sessionTimeout).subscribe((isTimedOut: boolean) => {
         if (isTimedOut) {
-          console.log('session expired');
+          //console.log('session expired');
           this.logout();
           this.bnIdle.stopTimer();
         }
@@ -42,7 +47,8 @@ export class AppComponent {
 
   @HostListener('window:unload', [ '$event' ])
   unloadHandler(event: any) {
-    this.logout();
+    console.log('window unload');
+    //this.logout();
   }
 
   @HostListener('window:beforeunload', [ '$event' ])

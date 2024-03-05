@@ -1,17 +1,19 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { CompanyComponent } from './company/company/company.component';
+import { HomeComponent } from './home/home/home.component';
 import { AuthGuardService } from './services/auth.guard.service';
 import { LoginComponent } from './login/login/login.component';
+import { ProjectComponent } from './project/project/project.component';
+import { CompanyComponent } from './company/company/company.component';
+import { FindingComponent } from './finding/finding/finding.component';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'company' },
-  { path: 'home', pathMatch: 'full', redirectTo: 'company' },
-  { path: 'company',  component: CompanyComponent, canActivate: [AuthGuardService], data: { animation: 'company' } },
-  //{ path: 'formulario',  component: FormularioComponent, data: { animation: 'formulario' } },
-  //{ path: 'formulario/:url/:fileName', redirectTo: '/formulario/:url/:fileName' },
-  //{ path: 'formulario/:url/:formFileName/:path', component: FormularioComponent, data: { animation: 'formulario' } },
+  { path: '', pathMatch: 'full', redirectTo: 'home' },
+  { path: 'home',  component: HomeComponent, canActivate: [AuthGuardService], data: { animation: 'home' } },
+  { path: 'company',  component: CompanyComponent, data: { animation: 'company' } },
+  { path: 'project',  component: ProjectComponent, data: { animation: 'project' } },
+  { path: 'finding',  component: FindingComponent, data: { animation: 'finding' } },
   { path: 'login', component: LoginComponent },
   { path: '**', component: PageNotFoundComponent }
 ];

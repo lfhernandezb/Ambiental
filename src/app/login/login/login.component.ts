@@ -74,6 +74,14 @@ export class LoginComponent implements OnInit {
   }
   */
   ngOnInit(): void {
+
+    console.log("isAuthenticated: " + this.authenticationService.isAuthenticated());
+
+    if (this.authenticationService.isAuthenticated()) {
+      this.router.navigate(['/home']);
+    }
+
+
     this.loginForm = new FormGroup({
       username: new FormControl('', [
         Validators.required,

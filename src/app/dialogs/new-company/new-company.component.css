@@ -1,0 +1,25 @@
+/*
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  transition: opacity 500ms;
+  visibility: visible;
+  opacity: 1;
+}
+*/
+
+.custom-dialog.info{
+  background:#F1F8E9;
+}
+
+.custom-dialog.warn{
+  background: #FFEBEE;
+}
+
+mat-form-field {
+  width: 100%;
+}

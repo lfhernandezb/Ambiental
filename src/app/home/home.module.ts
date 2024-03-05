@@ -1,11 +1,10 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HomeComponent } from './home/home.component';
 import { AlertModule } from '../alert/alert.module';
-import { NgxPaginationModule } from 'ngx-pagination';
-import { MaterialModule } from '../material/material.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
-
-
+import { MaterialModule } from '../material/material.module';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [],
@@ -18,4 +17,4 @@ import { NgxSpinnerModule } from 'ngx-spinner';
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class CompanyModule { }
+export class HomeModule { }

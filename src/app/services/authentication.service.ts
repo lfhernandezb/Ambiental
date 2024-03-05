@@ -18,6 +18,9 @@ export class AuthenticationService {
   // store the URL so we can redirect after logging in
   public redirectUrl: string | null = null;
 
+  // initialises the userSubject with the user object from localStorage
+  // which enables the user to stay logged in between page refreshes or
+  // after the browser is closed
   constructor(
       private router: Router,
       private http: HttpClient
@@ -31,12 +34,16 @@ export class AuthenticationService {
   }
 
   public isAuthenticated() {
+    /*
       const user = this.userValue;
-      //console.log("user: " + user);
-      //console.log("user && user.authdata: " + user && user.authdata);
-      return user && user.authdata;
-      //return user != null;
+      //console.log("isAuthenticated user: " + user);
+      //console.log("isAuthenticated user && user.authdata: " + user && user.authdata);
+      //return user && user.authdata;
+      return user != null;
       //return false;
+      */
+
+      return JSON.parse(localStorage.getItem('user')!) != null;
   }
 
   login(username: string, password: string) {
@@ -56,14 +63,17 @@ export class AuthenticationService {
       .pipe(map(
         (user: any) => {
               console.log("login data: " + user);
-              if (user.name) {
-                let user: User = {} as User;
+              //if (user.name) {
+                //let user: User = {} as User;
                 // store user details and basic auth credentials in local storage to keep user logged in between page refreshes
                 user.authdata = window.btoa(username + ':' + password);
-                user.name = user['name'];
+                //user.name = user['name'];
                 localStorage.setItem('user', JSON.stringify(user));
+                //  The user object is then published to all subscribers
                 this.userSubject.next(user);
-              }
+                return user;
+              //}
+              //return null;
 
         }));
   }
@@ -71,6 +81,7 @@ export class AuthenticationService {
   logout() {
       // remove user from local storage to log user out
       localStorage.removeItem('user');
+      //  publishes null to all subscribers
       this.userSubject.next({} as any);
       this.router.navigate(['/login']);
   }

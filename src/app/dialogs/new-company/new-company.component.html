@@ -1,1 +1,35 @@
-<p>new-company works!</p>
+<div class="custom-dialog {{modalType}}">
+	<h2 mat-dialog-title>Nueva Empresa</h2>
+	<div mat-dialog-content>
+		<p>
+			Ingrese los par&aacute;metros
+		</p>
+
+		<mat-form-field appearance="fill">
+			<mat-label>Ingrese nombre</mat-label>
+			<input matInput placeholder="Constructora XYZ" [formControl]="ctrlName" value={{name}} >
+			<mat-error *ngIf="ctrlName.invalid">{{getErrorMessage()}}</mat-error>
+		</mat-form-field>
+
+		<!--mat-form-field appearance="fill">
+			<mat-label>Signature Algorithm</mat-label>
+			<select matNativeControl [formControl]="ctrlAlgorithm" value={{algorithm}}>
+			  <option *ngFor="let sa of sas" [value]="sa.value">
+				{{sa.viewValue}}
+			  </option>
+			</select>
+			<mat-error *ngIf="ctrlAlgorithm.invalid">{{getErrorMessage()}}</mat-error>
+		</mat-form-field-->
+    </div>
+	<div mat-dialog-actions align="end">
+		<!-- <button mat-button [matDialogClose]="false" (click)="close()">No</button>
+		<button mat-button color="warn" [mat-dialog-close]="true" cdkFocusInitial (click)="save()">Yes</button> -->
+    <!-- <button class="mat-raised-button"(click)="close()">Close</button>
+    <button class="mat-raised-button mat-primary"(click)="save()">Save</button> -->
+
+	<button mat-button (click)="onNoClick()">Cancel</button>
+  <alert></alert>
+	<!--button mat-raised-button color="warn" [mat-dialog-close]="true" (click)="ok()">Ok</button-->
+	<button mat-raised-button color="warn" (click)="ok()">Ok</button>
+	</div>
+</div>
