@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from './services/authentication.service';
 import { BnNgIdleService } from 'bn-ng-idle';
 import { environment } from 'src/environments/environment';
+import { SessionService } from './services/session.service';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,8 @@ export class AppComponent {
       private router: Router,
       private route: ActivatedRoute,
       private authenticationService: AuthenticationService,
-      private bnIdle: BnNgIdleService
+      private bnIdle: BnNgIdleService,
+      private sessionService: SessionService
   ) {
 
   }
@@ -54,6 +56,13 @@ export class AppComponent {
   @HostListener('window:beforeunload', [ '$event' ])
   beforeUnloadHandler(event: any) {
     // ...
+    this.sessionService.save();
+  }
+
+  @HostListener('window:load', [ '$event' ])
+  loadHandler(event: any) {
+    console.log('window load');
+    this.sessionService.retrieve();
   }
 
   logout() {

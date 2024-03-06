@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
           console.log("login exitoso");
           // login exitoso
           this.router.navigate([this.returnUrl]);
-
+          /*
           // seteamos idle timeout
           this.bnIdle.startWatching(environment.sessionTimeout)
           .subscribe((isTimedOut: boolean) => {
@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
               this.bnIdle.stopTimer();
             }
           });
-
+          */
         },
         error: error => {
           console.log("login no exitoso: error: " + error.toString());

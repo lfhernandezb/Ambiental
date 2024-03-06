@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:8080',
-  sessionTimeout: 600
+  sessionTimeout: 600,
+  itemsPerPage: 5
 };
 
 /*

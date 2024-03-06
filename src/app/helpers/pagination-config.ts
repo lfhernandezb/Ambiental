@@ -4,6 +4,8 @@ export class PaginationConfig {
   numberOfPages: number;
   totalItems: number;
   autoHide: boolean;
+
+  // eliminar
   criteria: string;
 
   constructor() {
@@ -12,6 +14,7 @@ export class PaginationConfig {
     this.numberOfPages = 0;
     this.totalItems = 0;
     this.autoHide = false;
+    // eliminar
     this.criteria = '';
   }
 }

@@ -12,9 +12,11 @@ import { Company } from 'src/app/interfaces/company';
 import { Finding } from 'src/app/interfaces/finding';
 import { Project } from 'src/app/interfaces/project';
 import { AlertService } from 'src/app/services/alert.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 import { CompanyService } from 'src/app/services/company.service';
 import { FindingService } from 'src/app/services/finding.service';
 import { ProjectService } from 'src/app/services/project.service';
+import { SessionService } from 'src/app/services/session.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -39,8 +41,6 @@ export class ProjectComponent {
   success: boolean;
   errorMessage: string;
   pagConfig: PaginationConfig;
-  companyPagConfig: PaginationConfig;
-  homePagConfig: PaginationConfig;
   backendUrl: any;
   companyId: any;
   projectId: any;
@@ -48,6 +48,8 @@ export class ProjectComponent {
   project: Project = {} as Project;
 
   constructor(
+    private sessionService: SessionService,
+    private authenticationService: AuthenticationService,
     private projectService: ProjectService,
     private companyService: CompanyService,
     private findingService: FindingService,
@@ -60,166 +62,57 @@ export class ProjectComponent {
     this.success = false;
     this.errorMessage = '';
     this.pagConfig = new PaginationConfig();
-    this.companyPagConfig = new PaginationConfig();
-    this.homePagConfig = new PaginationConfig();
   }
 
   ngOnInit(): void {
-    this.companyId = this.route.snapshot.paramMap.get('companyId');
-    this.projectId = this.route.snapshot.paramMap.get('projectId');
+    console.log('Company OnInit');
+    this.sessionService.retrieve();
+    // truco: en typescript/javascript las variables basicas no se pueden pasar como referencia
+    // por lo que se crea un objeto cuyo contenido es el string que queremos modificar
+    let obj = {str: this.criteria};
+    let obj2 = {str: this.companyId};
+    let obj3 = {str: this.projectId};
+    this.sessionService.getProjectConfig(this.pagConfig, obj, obj2, obj3);
+    this.criteria = obj.str;
 
-    // conf home
-    this.homePagConfig.currentPage = +this.route.snapshot.paramMap.get('homeCurrentPage')!;
-    this.homePagConfig.itemsPerPage = +this.route.snapshot.paramMap.get('homeItemsPerPage')!;
-    this.homePagConfig.numberOfPages = +this.route.snapshot.paramMap.get('homeNumberOfPages')!;
-    this.homePagConfig.totalItems = +this.route.snapshot.paramMap.get('homeTotalItems')!;
-    this.homePagConfig.criteria = this.route.snapshot.paramMap.get('homeCriteria')!;
+    //this.sessionService.setCompanyConfig(this.pagConfig, this.criteria);
 
-    // conf company
-    this.companyPagConfig.currentPage = +this.route.snapshot.paramMap.get('companyCurrentPage')!;
-    this.companyPagConfig.itemsPerPage = +this.route.snapshot.paramMap.get('companyItemsPerPage')!;
-    this.companyPagConfig.numberOfPages = +this.route.snapshot.paramMap.get('companyNumberOfPages')!;
-    this.companyPagConfig.totalItems = +this.route.snapshot.paramMap.get('companyTotalItems')!;
-    this.companyPagConfig.criteria = this.route.snapshot.paramMap.get('companyCriteria')!;
-
-    // conf propia
-    this.pagConfig.currentPage = +this.route.snapshot.paramMap.get('projectCurrentPage')!;
-    this.pagConfig.itemsPerPage = +this.route.snapshot.paramMap.get('projectItemsPerPage')!;
-    this.pagConfig.numberOfPages = +this.route.snapshot.paramMap.get('projectNumberOfPages')!;
-    this.pagConfig.totalItems = +this.route.snapshot.paramMap.get('projectTotalItems')!;
-    this.pagConfig.criteria = this.route.snapshot.paramMap.get('projectCriteria')!;
-
-    this.criteria = this.route.snapshot.paramMap.get('projectCriteria')!;
-
-
-
-
-
-    // para paginacion
-    // this.pagConfig = new PaginationConfig();
-    this.pagConfig.itemsPerPage = 5;
-    this.pagConfig.autoHide = true;
-    // esta pagina podria estarse armando desde el boton 'back' en url-detail
+    // esta pagina podria estarse armando desde el boton 'back' en company-detail
     // strCurrentPage: string;
-    this.backendUrl = environment.apiUrl;
+    // this.backendCompany = environment.apiUrl;
 
-    // parametros recibidos desde company component
-    /*
-      this.router.navigate(['/projects', companyId, {
-      currentPage: this.pagConfig.currentPage,
-      numberOfPages: this.pagConfig.numberOfPages,
-      totalItems: this.pagConfig.totalItems,
-      criteria: this.criteria}]);
+    console.log("isAuthenticated: " + this.authenticationService.isAuthenticated());
 
-    */
-
-    // se recibe como parametro companyId desde company component
-    // si no, se solicita crear un nuevo project
-    //this.companyId = this.route.snapshot.paramMap.get('companyId');
+    if (!this.authenticationService.isAuthenticated()) {
+      this.router.navigate(['/login']);
+    }
 
     //let strCurrentPage = this.route.snapshot.paramMap.get('currentPage') as string;
 
-    // obtengo la company
-    this.getCompany();
-    /*
-    this.companyService.getByCompanyId(this.companyId).
-    subscribe(
-      (data)=>{
-      // console.log(data);
-      this.company = data as Company;
-      this.pagConfig.totalItems = this.projectList.length;
-
-      this.spinner.hide('sp3');
-
-    },
-    (error) => {
-      console.log('oops', error);
-      this.success = false;
-      this.errorMessage = error;
-      // console.log("triggering error");
-      this.alertService.error(this.errorMessage, this.options);
-
-      this.spinner.hide('sp3');
-    }
-
-  );
-  */
-
-  // obtengo el project
-  this.getProject();
-
-  /*
-  this.companyService.getByCompanyId(this.projectId).
-  subscribe(
-    (data)=>{
-    // console.log(data);
-    this.company = data as Company;
-    this.pagConfig.totalItems = this.projectList.length;
-
-    this.spinner.hide('sp3');
-
-  },
-  (error) => {
-    console.log('oops', error);
-    this.success = false;
-    this.errorMessage = error;
-    // console.log("triggering error");
-    this.alertService.error(this.errorMessage, this.options);
-
-    this.spinner.hide('sp3');
-  }
-
-);
-*/
-
-
-
     if (this.pagConfig.currentPage > 0) {
-      // venimos desde finding (boton back).... generamos los datos
+      // venimos desde proyecto (boton back) o recargamos la pagina.... generamos los datos
       // el signo + convierte de string a numero
-      // this.pagConfig.currentPage = +strCurrentPage;
-      // this.pagConfig.itemsPerPage = 10;
-      this.pagConfig.numberOfPages = +(this.route.snapshot.paramMap.get('numberOfPages') as string);
-      this.pagConfig.totalItems = +(this.route.snapshot.paramMap.get('totalItems') as string);
-      // this.pagConfig.autoHide = true;
-      this.criteria = this.route.snapshot.paramMap.get('criteria') as string;
+
+      this.companyId = obj2.str;
+
+      this.projectId = obj3.str;
 
       this.spinner.show('sp3');
 
-    // obtengo la lista de findings
-    this.getFindingList();
-    /*
-      this.findingService.listProjects(this.criteria, this.companyId).
-        subscribe(
-          (data)=>{
-          // console.log(data);
-          this.findingList = data as Project[];
-          this.pagConfig.totalItems = this.findingList.length;
-
-		      if (this.pagConfig.totalItems == 0) {
-		        this.alertService.info('No records found');
-		      }
-
-		      // console.log(this.pagConfig);
-		      this.pageChange(this.pagConfig.currentPage);
-
-          this.spinner.hide('sp3');
-
-        },
-        (error) => {
-          // console.log('oops', error);
-          this.success = false;
-          this.errorMessage = error;
-          // console.log("triggering error");
-          this.alertService.error(this.errorMessage, this.options);
-
-          this.spinner.hide('sp3');
-        }
-
-      );
-      */
-
+      this.getFindingList();
     }
+    else {
+      // venimos desde el home y debemos conseguir los detalles del project
+      this.companyId = this.route.snapshot.paramMap.get('companyId');
+
+      this.projectId = this.route.snapshot.paramMap.get('projectId');
+    }
+
+    this.sessionService.setCompanyConfig(this.pagConfig, this.criteria, this.companyId);
+
+    this.getCompany();
+
+    this.getProject();
 
     // para mensajes de error
     this.options = {
@@ -234,93 +127,34 @@ export class ProjectComponent {
     // eliminamos mensaje de error si estuviera desplegado
     this.alertService.clear();
 
-    this.collection = this.findingList.slice(this.pagConfig.itemsPerPage * (newPage - 1), this.pagConfig.itemsPerPage * (newPage - 1) + this.pagConfig.itemsPerPage);
+    this.collection = this.findingList.slice(
+      this.pagConfig.itemsPerPage * (newPage - 1),
+      this.pagConfig.itemsPerPage * (newPage - 1) + this.pagConfig.itemsPerPage);
 
-    // console.log(this.collection);
-    // console.log(this.urlList);
-	  /*
-    this.urlService.
-      listUrls(this.pagConfig.itemsPerPage * (newPage - 1), this.pagConfig.itemsPerPage, this.criteria).
-      subscribe(
-        (data)=>{
-          //console.log(data);
-          this.collection = data;
-        },
-        (error) => {
-          console.log('oops', error);
-          this.success = false;
-          this.errorMessage = error;
-          console.log("triggering error");
-          this.alertService.error(this.errorMessage, this.options);
-        }
-    );
-    */
+    this.sessionService.setProjectConfig(this.pagConfig, this.criteria, this.companyId, this.projectId);
+    this.sessionService.save();
   }
 
   onSearch(criteria: string) {
     //alert("You Clicked Me!");
     // console.log("onSearch")
     this.success = true;
-    this.criteria = criteria;
+    //this.sessionService.getSession().homeCriteria = criteria;
     this.pagConfig.numberOfPages = 0;
     this.pagConfig.totalItems = 0;
     this.pagConfig.currentPage = 0;
     this.collection = [];
+    this.pagConfig.itemsPerPage = environment.itemsPerPage;
+    this.pagConfig.autoHide = true;
 
+    this.criteria = criteria;
     // eliminamos mensaje de error si estuviera desplegado
     this.alertService.clear();
 
     /** spinner starts */
     this.spinner.show('sp3');
-    /*
-    setTimeout(() => {
-      // spinner ends after 5 seconds
-      this.spinner.hide('sp3');
-    }, 3000);
-    */
 
     this.getFindingList();
-
-    /*
-    this.findingService.
-      listProjects(this.criteria, this.companyId).
-      subscribe(
-        (data)=>{
-          //console.log(data);
-          this.findingList = data as Project[];
-          this.pagConfig.totalItems = this.findingList.length;
-
-          if (this.pagConfig.totalItems > 0) {
-              let paginationData = Number(this.pagConfig.totalItems / this.pagConfig.itemsPerPage);
-              this.pagConfig.numberOfPages = Number(paginationData.toFixed());
-
-              if (paginationData > this.pagConfig.numberOfPages) {
-                this.pagConfig.numberOfPages += 1;
-              }
-          }
-          else {
-              this.alertService.info('No records found');
-          }
-
-          // console.log(this.pagConfig);
-          this.pageChange(1);
-
-          this.spinner.hide('sp3');
-
-        },
-        (error) => {
-          // console.log('oops', error);
-          this.success = false;
-          this.errorMessage = error;
-          // console.log("triggering error");
-          this.alertService.error(this.errorMessage, this.options);
-
-          this.spinner.hide('sp3');
-        }
-    );
-    */
-
-
   }
 
   onNew() {
@@ -485,73 +319,64 @@ export class ProjectComponent {
   }
 
   private getFindingList(): void {
+    // limpiamos variables de sesion
+    this.sessionService.resetProjectSessionData();
+    this.sessionService.resetFindingSessionData();
 
     this.findingService.
-      listFindings(this.criteria, this.projectId).
-      subscribe(
-        (data)=>{
-          //console.log(data);
-          this.findingList = data as Finding[];
-          this.pagConfig.totalItems = this.findingList.length;
+    listFindings(this.criteria, this.projectId).
+    subscribe(
+      (data)=>{
+        console.log(data);
+        this.findingList = data as Finding[];
+        this.pagConfig.totalItems = this.findingList.length;
 
-          if (this.pagConfig.totalItems > 0) {
-              let paginationData = Number(this.pagConfig.totalItems / this.pagConfig.itemsPerPage);
-              this.pagConfig.numberOfPages = Number(paginationData.toFixed());
 
-              if (paginationData > this.pagConfig.numberOfPages) {
-                this.pagConfig.numberOfPages += 1;
-              }
-          }
-          else {
-              this.alertService.info('No records found');
-          }
+        if (this.pagConfig.totalItems > 0) {
+            let paginationData = Number(this.pagConfig.totalItems / this.pagConfig.itemsPerPage);
+            this.pagConfig.numberOfPages = Number(paginationData.toFixed());
 
-          this.pagConfig.currentPage = 1;
-
-          this.pageChange(this.pagConfig.currentPage);
-
-          this.spinner.hide('sp3');
-
-        },
-        (error) => {
-          // console.log('oops', error);
-          this.success = false;
-          this.errorMessage = error;
-          // console.log("triggering error");
-          this.alertService.error(this.errorMessage, this.options);
-
-          this.spinner.hide('sp3');
+            if (paginationData > this.pagConfig.numberOfPages) {
+              this.pagConfig.numberOfPages += 1;
+            }
         }
+        else {
+            this.alertService.info('No records found');
+        }
+
+        // si this.pagConfig.currentPage > 0 venimos desde otra pagina o se recargo... vamos a la pagina donde estabamos
+        if (this.pagConfig.currentPage == 0) {
+          // hicimos busqueda con boton
+          this.pagConfig.currentPage = 1;
+        }
+
+        this.pageChange(this.pagConfig.currentPage);
+
+        this.spinner.hide('sp3');
+
+        this.sessionService.setProjectConfig(this.pagConfig, this.criteria, this.companyId, this.projectId)
+        this.sessionService.save();
+
+      },
+      (error) => {
+        console.log('oops', error);
+        this.success = false;
+        this.errorMessage = error;
+        // console.log("triggering error");
+        this.alertService.error(this.errorMessage, this.options);
+
+        this.spinner.hide('sp3');
+      }
+
     );
   }
 
-  private goToFindingDetail(projectId: string) {
+  private goToFindingDetail(findingId: string) {
 
     this.router.navigate(['/finding', {
-
       companyId: this.companyId,
-      projectId: projectId,
-
-      // conf propia
-      companyCurrentPage: this.pagConfig.currentPage,
-      companyNumberOfPages: this.pagConfig.numberOfPages,
-      companyItemsPerPage: this.pagConfig.itemsPerPage,
-      companyTotalItems: this.pagConfig.totalItems,
-      companyCriteria: this.pagConfig.criteria,
-
-      // conf home
-      homeCurrentPage: this.homePagConfig.currentPage,
-      homeNumberOfPages: this.homePagConfig.numberOfPages,
-      homeItemsPerPage: this.homePagConfig.itemsPerPage,
-      homeTotalItems: this.homePagConfig.totalItems,
-      homeCriteria: this.homePagConfig.criteria,
-
-      // conf project
-      projectCurrentPage: this.pagConfig.currentPage,
-      projectNumberOfPages: this.pagConfig.numberOfPages,
-      projectItemsPerPage: this.pagConfig.itemsPerPage,
-      projectTotalItems: this.pagConfig.totalItems,
-      projectCriteria: this.pagConfig.criteria
+      projectId: this.projectId,
+      findingId: findingId
     }]);
   }
 

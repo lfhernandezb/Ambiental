@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { User } from '../interfaces/user';
+import { SessionService } from './session.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,8 @@ export class AuthenticationService {
   // after the browser is closed
   constructor(
       private router: Router,
-      private http: HttpClient
+      private http: HttpClient,
+      private sessionService: SessionService
   ) {
       this.userSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('user')!));
       this.user = this.userSubject.asObservable();
@@ -81,6 +83,8 @@ export class AuthenticationService {
   logout() {
       // remove user from local storage to log user out
       localStorage.removeItem('user');
+      localStorage.removeItem('session');
+      this.sessionService.resetSessionData();
       //  publishes null to all subscribers
       this.userSubject.next({} as any);
       this.router.navigate(['/login']);
