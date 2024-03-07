@@ -29,7 +29,7 @@ export class ProjectService {
     //return this.httpClient.get<Company[]>(environment.apiUrl+'/api/companies/all', httpOptions); //get(environment.apiCompany+'/api/companys?criteria='+criteria, httpOptions);
   }
 
-  public listProjects(criteria: string, companyId: string): Observable<Project[]> {
+  public getByDescriptionAndCompanyId(criteria: string, companyId: string): Observable<Project[]> {
   	//argument: string = 'criteria=';
     if (!criteria) {
       criteria = '';
@@ -39,9 +39,9 @@ export class ProjectService {
     //return this.httpClient.get<Project[]>(environment.apiUrl+'/api/companies/all', httpOptions); //get(environment.apiProject+'/api/projects?criteria='+criteria, httpOptions);
   }
 
-  public existsProject(description: string, companyId: string): Observable<boolean> {
+  public existsByDescriptionAndCompanyId(description: string, companyId: string): Observable<boolean> {
 
-    this.listProjects(description, companyId).
+    this.getByDescriptionAndCompanyId(description, companyId).
       subscribe(
         (data)=>{
           console.log(data);
@@ -62,4 +62,12 @@ export class ProjectService {
     );
     return of(false);
   }
+
+  public save(project: Project): Observable<Project> {
+  	//argument: string = 'criteria=';
+    // console.log('environment.apiCompany: '+environment.apiCompany);
+    return this.httpClient.post<Project>(environment.apiUrl+'/api/projects/save', project, httpOptions); //get(environment.apiCompany+'/api/companys?criteria='+criteria, httpOptions);
+    //return this.httpClient.get<Company[]>(environment.apiUrl+'/api/companies/all', httpOptions); //get(environment.apiCompany+'/api/companys?criteria='+criteria, httpOptions);
+  }
+
 }

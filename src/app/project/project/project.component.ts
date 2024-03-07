@@ -6,6 +6,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxSpinnerComponent, NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { AlertModule } from 'src/app/alert/alert.module';
 import { AlertComponent } from 'src/app/alert/alert/alert.component';
+import { NewFindingComponent } from 'src/app/dialogs/new-finding/new-finding.component';
 import { NewProjectComponent } from 'src/app/dialogs/new-project/new-project.component';
 import { PaginationConfig } from 'src/app/helpers/pagination-config';
 import { Company } from 'src/app/interfaces/company';
@@ -65,7 +66,7 @@ export class ProjectComponent {
   }
 
   ngOnInit(): void {
-    console.log('Company OnInit');
+    console.log('Project OnInit');
     this.sessionService.retrieve();
     // truco: en typescript/javascript las variables basicas no se pueden pasar como referencia
     // por lo que se crea un objeto cuyo contenido es el string que queremos modificar
@@ -173,10 +174,12 @@ export class ProjectComponent {
     dialogConfig.data = {
         //organization: environment.defaultOranization,
         //algorithm: environment.defaultAlgorithm
-    };
+        company: this.company,
+        project: this.project
+    }
     dialogConfig.minWidth = 600;
 
-    const dialogRef = this.dialog.open(NewProjectComponent, dialogConfig);
+    const dialogRef = this.dialog.open(NewFindingComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(result => {
       // console.log(`Dialog result: ${result}`);
@@ -234,6 +237,10 @@ export class ProjectComponent {
       }
     );
     */
+  }
+
+  public onReport() {
+
   }
 
   // bajar el project
@@ -324,7 +331,7 @@ export class ProjectComponent {
     this.sessionService.resetFindingSessionData();
 
     this.findingService.
-    listFindings(this.criteria, this.projectId).
+    getByDescriptionContainingAndProjectId(this.criteria, this.projectId).
     subscribe(
       (data)=>{
         console.log(data);

@@ -1,4 +1,4 @@
-<h1>Empresa: {{ company.name }}</h1>
+<!--h1>Empresa: {{ company.name }}</h1-->
 <h3>Proyectos</h3>
 <div>
   <label>Criterio:
@@ -12,7 +12,7 @@
     Buscar
   </button>
   <button (click)="onNew()">
-    Nueva
+    Nuevo
   </button>
 </div>
 
@@ -20,11 +20,14 @@
     <thead>
       <tr>
         <th>Descripci&oacute;n</th>
+        <th>Direcci&oacute;n</th>
+        <th>Acciones</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let project of collection | paginate: pagConfig">
         <td>{{ project.description }}</td>
+        <td>{{ project.address }}</td>
         <td>
             <a (click)="detail(project.projectId)"><img src="./assets/images/detail-icon-png-32x32.png" alt="" title="Detalle" border="0" width=32 height=32 /></a>
             <!--a [href]="backendUrl + '/api/download/' + url.descripcion" ><img src="./assets/images/download-icon-png-32x32.png" alt="" title="Bajar Formulario" border="0" width=32 height=32 /></a-->

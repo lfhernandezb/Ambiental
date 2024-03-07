@@ -13,7 +13,10 @@
     Buscar
   </button>
   <button (click)="onNew()">
-    Nueva
+    Nuevo
+  </button>
+  <button (click)="onReport()">
+    Informe
   </button>
 </div>
 
@@ -22,13 +25,15 @@
       <tr>
         <th>Identificador</th>
         <th>Descripci&oacute;n</th>
+        <th>Estado</th>
         <th>Acciones</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let finding of collection | paginate: pagConfig">
         <td>{{ finding.identifier }}</td>
-        <td>{{ finding.description }}</td>
+        <td>{{ finding.description.substr(0, 20) }}</td>
+        <td>{{ finding.findingState.description }}</td>
         <td>
             <a (click)="detail(finding.findingId)"><img src="./assets/images/detail-icon-png-32x32.png" alt="" title="Detalle" border="0" width=32 height=32 /></a>
             <!--a [href]="backendUrl + '/api/download/' + url.descripcion" ><img src="./assets/images/download-icon-png-32x32.png" alt="" title="Bajar Formulario" border="0" width=32 height=32 /></a-->

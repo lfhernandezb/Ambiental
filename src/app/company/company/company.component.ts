@@ -86,7 +86,11 @@ export class CompanyComponent {
       // venimos desde proyecto (boton back) o recargamos la pagina.... generamos los datos
       // el signo + convierte de string a numero
 
-      this.companyId = obj2.str;
+      if (environment.autoloadListings) {
+        this.companyId = this.route.snapshot.paramMap.get('companyId');
+      } else {
+        this.companyId = obj2.str;
+      }
 
       this.spinner.show('sp3');
 
@@ -100,6 +104,7 @@ export class CompanyComponent {
     this.sessionService.setCompanyConfig(this.pagConfig, this.criteria, this.companyId);
 
     this.getCompany();
+
 
     // para mensajes de error
     this.options = {
@@ -159,8 +164,8 @@ export class CompanyComponent {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
-        //organization: environment.defaultOranization,
-        //algorithm: environment.defaultAlgorithm
+        // datos iyectados al Dialog de new project
+        company: this.company
     };
     dialogConfig.minWidth = 600;
 
@@ -246,7 +251,7 @@ export class CompanyComponent {
     this.sessionService.resetFindingSessionData();
 
     this.projectService.
-    listProjects(this.criteria, this.companyId).
+    getByDescriptionAndCompanyId(this.criteria, this.companyId).
     subscribe(
       (data)=>{
         console.log(data);

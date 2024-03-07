@@ -13,10 +13,10 @@ export class CompanyValidatorService {
 
   }
 
-  checkCompany(): any {
+  public checkCompanyName(): any {
 
     return (control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> => {
-      return this.companyService.listCompanies(control.value).pipe(map(
+      return this.companyService.getByName(control.value).pipe(map(
         (comps: Company[]) => {
           return (comps && comps.length > 0 && comps[0].name == control.value) ? { "existsCompany": true } : null;
         }

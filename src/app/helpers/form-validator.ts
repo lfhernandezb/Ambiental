@@ -7,11 +7,11 @@ import { ProjectService } from "../services/project.service";
 import { Injector } from "@angular/core";
 import { HttpClient, HttpClientModule } from "@angular/common/http";
 
-export function existsCompanyValidator(): AsyncValidatorFn {
+export function existsCompanyByNameValidator(): AsyncValidatorFn {
     return (control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> => {
       let injector = Injector.create([ { provide: [CompanyService, HttpClient], useClass:CompanyService, deps: [HttpClientModule]}])
       let companyService = injector.get(CompanyService);
-      return companyService.listCompanies(control.value).pipe(map(
+      return companyService.getByName(control.value).pipe(map(
         (comps: Company[]) => {
           return (comps && comps.length > 0 && comps[0].name == control.value) ? { "existsCompany": true } : null;
         }

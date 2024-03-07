@@ -31,7 +31,7 @@ export class CompanyService {
   }
 
 
-  public listCompanies(criteria: string): Observable<Company[]> {
+  public getByName(criteria: string): Observable<Company[]> {
   	//argument: string = 'criteria=';
     if (!criteria) {
       criteria = '';
@@ -41,9 +41,9 @@ export class CompanyService {
     //return this.httpClient.get<Company[]>(environment.apiUrl+'/api/companies/all', httpOptions); //get(environment.apiCompany+'/api/companys?criteria='+criteria, httpOptions);
   }
 
-  public existsCompany(company: string): Observable<boolean> {
+  public existsByName(company: string): Observable<boolean> {
 
-    this.listCompanies(company).
+    this.getByName(company).
       subscribe(
         (data)=>{
           console.log(data);

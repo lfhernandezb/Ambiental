@@ -1,7 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { existsCompanyValidator } from 'src/app/helpers/form-validator';
 import { CompanyService } from 'src/app/services/company.service';
 import { Company } from '../../interfaces/company'
 import { HttpErrorResponse } from '@angular/common/http';
@@ -38,7 +37,7 @@ export class NewCompanyComponent {
   //formGroup: FormGroup;
   //formularioService: any;
   //companyService: CompanyService = {} as any;
-  alertService: AlertService = {} as any;
+  //alertService: AlertService = {} as any;
   //formBuilder: FormBuilder;
   ctrlName: FormControl = {} as any;
   errorMessage: string = '';
@@ -48,10 +47,10 @@ export class NewCompanyComponent {
   constructor(
     private companyService: CompanyService,
     private companyValidatorService: CompanyValidatorService,
-    alertService: AlertService,
+    private alertService: AlertService,
     private dialogRef: MatDialogRef<NewCompanyComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-    // vienen de DialogConfig.data desde company componente onNew->openModal
+    // vienen de DialogConfig.data desde company component onNew->openModal
     this.modalTitle = data.title;
     this.modalMessage = data.message;
     console.log(data)
@@ -68,22 +67,22 @@ export class NewCompanyComponent {
           Validators.minLength(3)
         ],
         [
-          this.companyValidatorService.checkCompany()
+          this.companyValidatorService.checkCompanyName()
         ]
       );
   }
 
   getErrorMessage() {
     if (this.ctrlName.hasError('required')) {
-      return 'You must enter a value';
+      return 'Debe ingresar el nombre';
     } else if (this.ctrlName.hasError('pattern')) {
-      return 'You must enter a valid value';
+      return 'Ingrese solamente texto';
     } else if (this.ctrlName.hasError('maxlength')) {
-      return 'Max is 128 characters';
+      return 'El m&aacute;ximo es 128 caracteres';
     } else if (this.ctrlName.hasError('minlength')) {
-      return 'Min is 3 characters';
+      return 'Ingrese al menos 3 caracteres';
     } else if (this.ctrlName.hasError('existsCompany')) {
-      return 'Company already exists';
+      return 'Empresa con ese nombre ya existe';
     }
 
     return 'Unknown error';

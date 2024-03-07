@@ -28,19 +28,29 @@ export class FindingService {
     //return this.httpClient.get<Company[]>(environment.apiUrl+'/api/companies/all', httpOptions); //get(environment.apiCompany+'/api/companys?criteria='+criteria, httpOptions);
   }
 
-  public listFindings(criteria: string, projectId: string): Observable<Finding[]> {
+  public getByIdentifierAndProjectId(identifier: string, projectId: string): Observable<Finding[]> {
   	//argument: string = 'criteria=';
-    if (!criteria) {
-      criteria = '';
+    if (!identifier) {
+      identifier = '';
     }
     // console.log('environment.apiFinding: '+environment.apiFinding);
-    return this.httpClient.get<Finding[]>(environment.apiUrl+'/api/findings/param?description='+criteria+'&projectId='+projectId, httpOptions); //get(environment.apiFinding+'/api/findings?criteria='+criteria, httpOptions);
+    return this.httpClient.get<Finding[]>(environment.apiUrl+'/api/findings/param?identifier='+identifier+'&projectId='+projectId, httpOptions); //get(environment.apiFinding+'/api/findings?criteria='+criteria, httpOptions);
     //return this.httpClient.get<Finding[]>(environment.apiUrl+'/api/companies/all', httpOptions); //get(environment.apiFinding+'/api/findings?criteria='+criteria, httpOptions);
   }
 
-  public existsFinding(description: string, companyId: string): Observable<boolean> {
+  public getByDescriptionContainingAndProjectId(description: string, projectId: string): Observable<Finding[]> {
+  	//argument: string = 'criteria=';
+    if (!description) {
+      description = '';
+    }
+    // console.log('environment.apiFinding: '+environment.apiFinding);
+    return this.httpClient.get<Finding[]>(environment.apiUrl+'/api/findings/special?description='+description+'&projectId='+projectId, httpOptions); //get(environment.apiFinding+'/api/findings?criteria='+criteria, httpOptions);
+    //return this.httpClient.get<Finding[]>(environment.apiUrl+'/api/companies/all', httpOptions); //get(environment.apiFinding+'/api/findings?criteria='+criteria, httpOptions);
+  }
 
-    this.listFindings(description, companyId).
+  public existsFindingByDescriptionContainingAndProjectId(description: string, companyId: string): Observable<boolean> {
+
+    this.getByDescriptionContainingAndProjectId(description, companyId).
       subscribe(
         (data)=>{
           console.log(data);
@@ -61,4 +71,12 @@ export class FindingService {
     );
     return of(false);
   }
+
+  public save(finding: Finding): Observable<Finding> {
+  	//argument: string = 'criteria=';
+    // console.log('environment.apiCompany: '+environment.apiCompany);
+    return this.httpClient.post<Finding>(environment.apiUrl+'/api/findings/save', finding, httpOptions); //get(environment.apiCompany+'/api/companys?criteria='+criteria, httpOptions);
+    //return this.httpClient.get<Company[]>(environment.apiUrl+'/api/companies/all', httpOptions); //get(environment.apiCompany+'/api/companys?criteria='+criteria, httpOptions);
+  }
+
 }

@@ -91,7 +91,7 @@ export class HomeComponent implements OnInit {
 
     this.sessionService.setHomeConfig(this.pagConfig, this.criteria);
 
-    // para mensajes de error
+      // para mensajes de error
     this.options = {
       autoclose: false,
       keepAfterRouteChange: false
@@ -219,7 +219,7 @@ export class HomeComponent implements OnInit {
     this.sessionService.resetFindingSessionData();
 
     this.companyService.
-    listCompanies(this.criteria).
+    getByName(this.criteria).
     subscribe(
       (data)=>{
         console.log(data);
