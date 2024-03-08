@@ -1,23 +1,39 @@
 <h1>Empresa: {{ company.name }}</h1>
 <h2>Proyecto: {{ project.description }}</h2>
-<h3>Hallazgos</h3>
+<h3>Listado de hallazgos</h3>
 <div>
-  <label>Criterio:
-    <input #seek [value]="criteria" />
-  </label>
-  <!-- (click) passes input value to add() and then clears the input -->
-  <!--button (click)="add(usuarioName.value); usuarioName.value=''">
-    add
-  </button-->
-  <button (click)="onSearch(seek.value)">
-    Buscar
-  </button>
-  <button (click)="onNew()">
-    Nuevo
-  </button>
-  <button (click)="onReport()">
-    Informe
-  </button>
+  <table class="table>">
+    <td>
+      <label>Criterio:
+        <input #seek class="form-control" [value]="criteria" />
+      </label>
+
+    </td>
+    <!-- (click) passes input value to add() and then clears the input -->
+    <!--button (click)="add(usuarioName.value); usuarioName.value=''">
+      add
+    </button-->
+    <td>
+      <button type="button" class="btn btn-primary" (click)="onSearch(seek.value)">
+        Buscar
+      </button>
+
+    </td>
+    <td>
+      <button type="button" class="btn btn-primary" (click)="onNew()">
+        Nuevo
+      </button>
+
+    </td>
+    <td>
+      <button type="button" class="btn btn-primary" (click)="onReport()">
+        Informe
+      </button>
+
+    </td>
+    </table>
+
+
 </div>
 
   <table class="table">

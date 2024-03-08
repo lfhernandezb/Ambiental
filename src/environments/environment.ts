@@ -7,7 +7,8 @@ export const environment = {
   apiUrl: 'http://localhost:8080',
   sessionTimeout: 600,
   itemsPerPage: 5,
-  autoloadListings: true
+  autoloadListings: true,
+  autoHide: true
 };
 
 /*

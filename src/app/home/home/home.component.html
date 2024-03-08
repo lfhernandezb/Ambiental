@@ -1,18 +1,29 @@
-<h3>Empresas</h3>
-<div>
-  <label>Criterio:
-    <input #seek [value]="criteria" />
-  </label>
+<h3>Listado de empresas</h3>
+<div class="container">
+  <table class="table>">
+  <td>
+    <label>Criterio:
+      <input #seek class="form-control" [value]="criteria" />
+    </label>
+
+  </td>
   <!-- (click) passes input value to add() and then clears the input -->
   <!--button (click)="add(usuarioName.value); usuarioName.value=''">
     add
   </button-->
-  <button (click)="onSearch(seek.value)">
-    Buscar
-  </button>
-  <button (click)="onNew()">
-    Nueva
-  </button>
+  <td>
+    <button type="button" class="btn btn-primary" (click)="onSearch(seek.value)">
+      Buscar
+    </button>
+
+  </td>
+  <td>
+    <button type="button" class="btn btn-primary" (click)="onNew()">
+      Nueva
+    </button>
+
+  </td>
+  </table>
 </div>
 
   <table class="table">

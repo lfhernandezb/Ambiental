@@ -15,6 +15,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { NgFor, NgIf } from '@angular/common';
 import { SessionService } from 'src/app/services/session.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-project',
@@ -63,10 +64,12 @@ export class CompanyComponent {
     this.sessionService.retrieve();
     // truco: en typescript/javascript las variables basicas no se pueden pasar como referencia
     // por lo que se crea un objeto cuyo contenido es el string que queremos modificar
-    let obj = {str: this.criteria};
-    let obj2 = {str: this.companyId};
-    this.sessionService.getCompanyConfig(this.pagConfig, obj, obj2);
-    this.criteria = obj.str;
+    let objCriteria = {str: this.criteria};
+    let objCompanyId = {str: this.companyId};
+    this.sessionService.getCompanyConfig(this.pagConfig, objCriteria, objCompanyId);
+    this.pagConfig.itemsPerPage = environment.itemsPerPage;
+    this.pagConfig.autoHide = environment.autoHide;
+    this.criteria = objCriteria.str;
 
     //this.sessionService.setCompanyConfig(this.pagConfig, this.criteria);
 
@@ -82,29 +85,33 @@ export class CompanyComponent {
 
     //let strCurrentPage = this.route.snapshot.paramMap.get('currentPage') as string;
 
+    let bMustCallLoadProjects: Boolean = false;
+
     if (this.pagConfig.currentPage > 0) {
       // venimos desde proyecto (boton back) o recargamos la pagina.... generamos los datos
       // el signo + convierte de string a numero
 
-      if (environment.autoloadListings) {
-        this.companyId = this.route.snapshot.paramMap.get('companyId');
-      } else {
-        this.companyId = obj2.str;
-      }
-
-      this.spinner.show('sp3');
-
-      this.getProjectList();
+      // this.getProjectList();
+      bMustCallLoadProjects = true;
+      // obtengo el companyId desde la sesion
+      this.companyId = objCompanyId.str;
     }
     else {
       // venimos desde el home y debemos conseguir los detalles de la company
       this.companyId = this.route.snapshot.paramMap.get('companyId');
-    }
 
-    this.sessionService.setCompanyConfig(this.pagConfig, this.criteria, this.companyId);
+      if (environment.autoloadListings) {
+        bMustCallLoadProjects = true;
+      }
+
+    }
 
     this.getCompany();
 
+    // this.sessionService.setCompanyConfig(this.pagConfig, this.criteria, this.companyId);
+    if (bMustCallLoadProjects) {
+      this.getProjectList();
+    }
 
     // para mensajes de error
     this.options = {
@@ -163,11 +170,12 @@ export class CompanyComponent {
 
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
+    dialogConfig.minWidth = 260;
+    dialogConfig.width = "600px";
     dialogConfig.data = {
         // datos iyectados al Dialog de new project
         company: this.company
     };
-    dialogConfig.minWidth = 600;
 
     const dialogRef = this.dialog.open(NewProjectComponent, dialogConfig);
 
@@ -250,6 +258,8 @@ export class CompanyComponent {
     this.sessionService.resetProjectSessionData();
     this.sessionService.resetFindingSessionData();
 
+    this.spinner.show('sp3');
+
     this.projectService.
     getByDescriptionAndCompanyId(this.criteria, this.companyId).
     subscribe(
@@ -266,9 +276,6 @@ export class CompanyComponent {
             if (paginationData > this.pagConfig.numberOfPages) {
               this.pagConfig.numberOfPages += 1;
             }
-        }
-        else {
-            this.alertService.info('No records found');
         }
 
         // si this.pagConfig.currentPage > 0 venimos desde otra pagina o se recargo... vamos a la pagina donde estabamos
@@ -288,10 +295,15 @@ export class CompanyComponent {
       (error) => {
         console.log('oops', error);
         this.success = false;
-        this.errorMessage = error;
-        // console.log("triggering error");
-        this.alertService.error(this.errorMessage, this.options);
 
+        if (error.status == 404) {
+          this.alertService.info('No se encontraron registros', this.options);
+        }
+        else {
+          // this.errorMessage = error;
+          // console.log("triggering error");
+          this.alertService.error(error.message, this.options);
+        }
         this.spinner.hide('sp3');
       }
 

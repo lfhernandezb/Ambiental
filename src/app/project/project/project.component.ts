@@ -70,11 +70,13 @@ export class ProjectComponent {
     this.sessionService.retrieve();
     // truco: en typescript/javascript las variables basicas no se pueden pasar como referencia
     // por lo que se crea un objeto cuyo contenido es el string que queremos modificar
-    let obj = {str: this.criteria};
-    let obj2 = {str: this.companyId};
-    let obj3 = {str: this.projectId};
-    this.sessionService.getProjectConfig(this.pagConfig, obj, obj2, obj3);
-    this.criteria = obj.str;
+    let objCriteria = {str: this.criteria};
+    let objCompanyId = {str: this.companyId};
+    let objProjectId = {str: this.projectId};
+    this.sessionService.getProjectConfig(this.pagConfig, objCriteria, objCompanyId, objProjectId);
+    this.pagConfig.itemsPerPage = environment.itemsPerPage;
+    this.pagConfig.autoHide = environment.autoHide;
+    this.criteria = objCriteria.str;
 
     //this.sessionService.setCompanyConfig(this.pagConfig, this.criteria);
 
@@ -90,30 +92,43 @@ export class ProjectComponent {
 
     //let strCurrentPage = this.route.snapshot.paramMap.get('currentPage') as string;
 
+    let bMustCallLoadFindings: Boolean = false;
+
     if (this.pagConfig.currentPage > 0) {
       // venimos desde proyecto (boton back) o recargamos la pagina.... generamos los datos
       // el signo + convierte de string a numero
 
-      this.companyId = obj2.str;
+      bMustCallLoadFindings = true;
 
-      this.projectId = obj3.str;
+      // obtengo el companyId y projectId desde la sesion
+      this.companyId = objCompanyId.str;
+
+      this.projectId = objProjectId.str;
 
       this.spinner.show('sp3');
-
-      this.getFindingList();
     }
     else {
-      // venimos desde el home y debemos conseguir los detalles del project
+      // venimos desde company y debemos conseguir los detalles del project
       this.companyId = this.route.snapshot.paramMap.get('companyId');
 
       this.projectId = this.route.snapshot.paramMap.get('projectId');
+
+      if (environment.autoloadListings) {
+        bMustCallLoadFindings = true;
+      }
+
     }
 
-    this.sessionService.setCompanyConfig(this.pagConfig, this.criteria, this.companyId);
+    // this.sessionService.setCompanyConfig(this.pagConfig, this.criteria, this.companyId);
 
     this.getCompany();
 
     this.getProject();
+
+    if (bMustCallLoadFindings) {
+      this.getFindingList();
+    }
+
 
     // para mensajes de error
     this.options = {
@@ -171,13 +186,14 @@ export class ProjectComponent {
 
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
+    dialogConfig.minWidth = 260;
+    dialogConfig.width = "600px";
     dialogConfig.data = {
         //organization: environment.defaultOranization,
         //algorithm: environment.defaultAlgorithm
         company: this.company,
         project: this.project
     }
-    dialogConfig.minWidth = 600;
 
     const dialogRef = this.dialog.open(NewFindingComponent, dialogConfig);
 
@@ -347,9 +363,6 @@ export class ProjectComponent {
               this.pagConfig.numberOfPages += 1;
             }
         }
-        else {
-            this.alertService.info('No records found');
-        }
 
         // si this.pagConfig.currentPage > 0 venimos desde otra pagina o se recargo... vamos a la pagina donde estabamos
         if (this.pagConfig.currentPage == 0) {
@@ -368,9 +381,14 @@ export class ProjectComponent {
       (error) => {
         console.log('oops', error);
         this.success = false;
-        this.errorMessage = error;
-        // console.log("triggering error");
-        this.alertService.error(this.errorMessage, this.options);
+        if (error.status == 404) {
+          this.alertService.info('No se encontraron registros', this.options);
+        }
+        else {
+          // this.errorMessage = error;
+          // console.log("triggering error");
+          this.alertService.error(error.message, this.options);
+        }
 
         this.spinner.hide('sp3');
       }

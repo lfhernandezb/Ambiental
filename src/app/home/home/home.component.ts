@@ -63,6 +63,8 @@ export class HomeComponent implements OnInit {
     // por lo que se crea un objeto cuyo contenido es el string que queremos modificar
     let obj = {str: this.criteria};
     this.sessionService.getHomeConfig(this.pagConfig, obj);
+    this.pagConfig.itemsPerPage = environment.itemsPerPage;
+    this.pagConfig.autoHide = environment.autoHide;
     this.criteria = obj.str;
     // el signo + convierte de string a numero
     // el signo ! pasa de un string | null a string
@@ -80,16 +82,28 @@ export class HomeComponent implements OnInit {
       this.router.navigate(['/login']);
     }
 
+    let bMustCallLoadCompanies: Boolean = false;
+
     if (this.pagConfig.currentPage > 0) {
       // venimos desde proyecto (boton back).... generamos los datos
       // el signo + convierte de string a numero
 
-      this.spinner.show('sp3');
+      // this.spinner.show('sp3');
 
-      this.getCompanyList();
+      // this.getCompanyList();
+      bMustCallLoadCompanies = true;
+    }
+    else {
+      // venimos desde login
+      if (environment.autoloadListings) {
+        bMustCallLoadCompanies = true;
+      }
     }
 
-    this.sessionService.setHomeConfig(this.pagConfig, this.criteria);
+    if (bMustCallLoadCompanies) {
+      this.getCompanyList();
+    }
+   // this.sessionService.setHomeConfig(this.pagConfig, this.criteria);
 
       // para mensajes de error
     this.options = {
@@ -148,11 +162,12 @@ export class HomeComponent implements OnInit {
 
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
+    dialogConfig.minWidth = 260;
+    dialogConfig.width = "600px";
     dialogConfig.data = {
         modalTitle: 'Nueva Empresa',
         modalMessage: 'Mensaje'
     };
-    dialogConfig.minWidth = 600;
 
     const dialogRef = this.dialog.open(NewCompanyComponent, dialogConfig);
 
@@ -217,6 +232,9 @@ export class HomeComponent implements OnInit {
     this.sessionService.resetCompanySessionData();
     this.sessionService.resetProjectSessionData();
     this.sessionService.resetFindingSessionData();
+    this.sessionService.save();
+
+    this.spinner.show('sp3');
 
     this.companyService.
     getByName(this.criteria).
@@ -234,9 +252,6 @@ export class HomeComponent implements OnInit {
             if (paginationData > this.pagConfig.numberOfPages) {
               this.pagConfig.numberOfPages += 1;
             }
-        }
-        else {
-            this.alertService.info('No records found');
         }
 
         // si this.pagConfig.currentPage > 0 venimos desde otra pagina o se recargo... vamos a la pagina donde estabamos
@@ -256,9 +271,15 @@ export class HomeComponent implements OnInit {
       (error) => {
         console.log('oops', error);
         this.success = false;
-        this.errorMessage = error;
-        // console.log("triggering error");
-        this.alertService.error(this.errorMessage, this.options);
+
+        if (error.status == 404) {
+          this.alertService.info('No se encontraron registros', this.options);
+        }
+        else {
+          // this.errorMessage = error;
+          // console.log("triggering error");
+          this.alertService.error(error.message, this.options);
+        }
 
         this.spinner.hide('sp3');
       }

@@ -120,12 +120,13 @@ export class FindingComponent {
 
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
+    dialogConfig.minWidth = 260;
+    dialogConfig.width = "600px";
     dialogConfig.data = {
         //organization: environment.defaultOranization,
         //algorithm: environment.defaultAlgorithm
         finding: this.finding
     };
-    dialogConfig.minWidth = 600;
 
     const dialogRef = this.dialog.open(CamSnapshotComponent, dialogConfig);
 
@@ -169,14 +170,15 @@ export class FindingComponent {
 
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
+    dialogConfig.minWidth = 260;
+    dialogConfig.width = "600px";
     dialogConfig.data = {
         //organization: environment.defaultOranization,
         //algorithm: environment.defaultAlgorithm
         finding: this.finding,
         modalTitle: 'Ingrese descrpción',
-        modalText: this.finding.description
+        modalText: this.finding.description,
     };
-    dialogConfig.minWidth = 600;
 
     const dialogRef = this.dialog.open(TextInputComponent, dialogConfig);
 
@@ -221,6 +223,8 @@ export class FindingComponent {
 
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
+    dialogConfig.minWidth = 260;
+    dialogConfig.width = "600px";
     dialogConfig.data = {
         //organization: environment.defaultOranization,
         //algorithm: environment.defaultAlgorithm
@@ -228,7 +232,6 @@ export class FindingComponent {
         modalTitle: 'Ingrese comentario',
         modalText: this.finding.comment
     };
-    dialogConfig.minWidth = 600;
 
     const dialogRef = this.dialog.open(TextInputComponent, dialogConfig);
 
@@ -272,6 +275,8 @@ export class FindingComponent {
 
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
+    dialogConfig.minWidth = 260;
+    dialogConfig.width = "600px";
     dialogConfig.data = {
         //organization: environment.defaultOranization,
         //algorithm: environment.defaultAlgorithm
@@ -280,7 +285,6 @@ export class FindingComponent {
         modalSelected: this.finding.findingStateId,
         findingStates: this.findinStates
     };
-    dialogConfig.minWidth = 600;
 
     const dialogRef = this.dialog.open(OptionHtmlComponent, dialogConfig);
 
