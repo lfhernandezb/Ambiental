@@ -256,7 +256,11 @@ export class ProjectComponent {
   }
 
   public onReport() {
-
+    this.router.navigate(['/report', {
+      projectId: this.projectId,
+      companyName: this.company.name,
+      projectDescription: this.project.description
+    }]);
   }
 
   // bajar el project

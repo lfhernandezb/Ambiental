@@ -25,6 +25,7 @@ import { CompanyComponent } from './company/company/company.component';
 import { CamSnapshotComponent } from './dialogs/cam-snapshot/cam-snapshot.component';
 import { TextInputComponent } from './dialogs/text-input/text-input.component';
 import { OptionHtmlComponent } from './dialogs/option-html/option-html.component';
+import { ReportComponent } from './report/report/report.component';
 
 @NgModule({
   declarations: [

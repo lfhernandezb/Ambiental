@@ -7,6 +7,7 @@ import { LoginComponent } from './login/login/login.component';
 import { ProjectComponent } from './project/project/project.component';
 import { CompanyComponent } from './company/company/company.component';
 import { FindingComponent } from './finding/finding/finding.component';
+import { ReportComponent } from './report/report/report.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'company',  component: CompanyComponent, data: { animation: 'company' } },
   { path: 'project',  component: ProjectComponent, data: { animation: 'project' } },
   { path: 'finding',  component: FindingComponent, data: { animation: 'finding' } },
+  { path: 'report',  component: ReportComponent, data: { animation: 'report' } },
   { path: 'login', component: LoginComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
