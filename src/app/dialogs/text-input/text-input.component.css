@@ -1,0 +1,11 @@
+.custom-dialog.info{
+  background:#F1F8E9;
+}
+
+.custom-dialog.warn{
+  background: #FFEBEE;
+}
+
+mat-form-field {
+  width: 100%;
+}

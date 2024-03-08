@@ -79,4 +79,11 @@ export class FindingService {
     //return this.httpClient.get<Company[]>(environment.apiUrl+'/api/companies/all', httpOptions); //get(environment.apiCompany+'/api/companys?criteria='+criteria, httpOptions);
   }
 
+  public update(finding: Finding): Observable<Finding> {
+  	//argument: string = 'criteria=';
+    // console.log('environment.apiCompany: '+environment.apiCompany);
+    return this.httpClient.put<Finding>(environment.apiUrl+'/api/findings/save', finding, httpOptions); //get(environment.apiCompany+'/api/companys?criteria='+criteria, httpOptions);
+    //return this.httpClient.get<Company[]>(environment.apiUrl+'/api/companies/all', httpOptions); //get(environment.apiCompany+'/api/companys?criteria='+criteria, httpOptions);
+  }
+
 }

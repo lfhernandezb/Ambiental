@@ -22,14 +22,20 @@ import { CompanyValidatorService } from './services/company.validator.service';
 import { HomeComponent } from './home/home/home.component';
 import { CompanyModule } from './company/company.module';
 import { CompanyComponent } from './company/company/company.component';
+import { CamSnapshotComponent } from './dialogs/cam-snapshot/cam-snapshot.component';
+import { TextInputComponent } from './dialogs/text-input/text-input.component';
+import { OptionHtmlComponent } from './dialogs/option-html/option-html.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PageNotFoundComponent,
-    LoginComponent
+    LoginComponent,
   ],
   imports: [
+    OptionHtmlComponent,
+    TextInputComponent,
+    CamSnapshotComponent,
     AppRoutingModule,
     BrowserModule,
     LayoutModule,

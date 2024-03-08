@@ -1,0 +1,35 @@
+.snap-container {
+  margin-top: 16px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.list-unstyled {
+  list-style: none;
+}
+
+.list-unstyled li {
+  display: inline-block;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.show {
+  display: block;
+}
+
+.hide {
+  display: none;
+}
+
+.custom-dialog.info{
+  background:#F1F8E9;
+}
+
+.custom-dialog.warn{
+  background: #FFEBEE;
+}
+
+mat-form-field {
+  width: 100%;
+}

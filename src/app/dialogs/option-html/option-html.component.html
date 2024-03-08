@@ -1,0 +1,27 @@
+<div class="custom-dialog {{modalType}}">
+	<h2 mat-dialog-title>{{ modalTitle }}</h2>
+	<div mat-dialog-content>
+
+		<mat-form-field appearance="fill">
+			<mat-label>Estado del Hallazgo</mat-label>
+			<select matNativeControl [formControl]="ctrlFindingStateId" value={{modalSelected}}>
+			  <option *ngFor="let findingState of findingStates" [value]="findingState.findingStateId" [selected]="findingState.findingStateId == modalSelected">
+				{{findingState.description}}
+			  </option>
+			</select>
+			<mat-error *ngIf="ctrlFindingStateId.invalid">{{getErrorMessage()}}</mat-error>
+		</mat-form-field>
+    </div>
+	<div mat-dialog-actions align="end">
+		<!-- <button mat-button [matDialogClose]="false" (click)="close()">No</button>
+		<button mat-button color="warn" [mat-dialog-close]="true" cdkFocusInitial (click)="save()">Yes</button> -->
+    <!-- <button class="mat-raised-button"(click)="close()">Close</button>
+    <button class="mat-raised-button mat-primary"(click)="save()">Save</button> -->
+
+	<button mat-button (click)="onNoClick()">Cancel</button>
+  <!--alert></alert-->
+	<!--button mat-raised-button color="warn" [mat-dialog-close]="true" (click)="ok()">Ok</button-->
+	<button mat-raised-button color="warn" (click)="ok()">Ok</button>
+	</div>
+</div>
+

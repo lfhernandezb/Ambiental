@@ -1,12 +1,18 @@
+import { DatePipe } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerComponent, NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { AlertModule } from 'src/app/alert/alert.module';
 import { AlertComponent } from 'src/app/alert/alert/alert.component';
+import { CamSnapshotComponent } from 'src/app/dialogs/cam-snapshot/cam-snapshot.component';
 import { NewProjectComponent } from 'src/app/dialogs/new-project/new-project.component';
+import { OptionHtmlComponent } from 'src/app/dialogs/option-html/option-html.component';
+import { TextInputComponent } from 'src/app/dialogs/text-input/text-input.component';
 import { Company } from 'src/app/interfaces/company';
 import { Finding } from 'src/app/interfaces/finding';
+import { FindingState } from 'src/app/interfaces/finding-state';
 import { Project } from 'src/app/interfaces/project';
 import { AlertService } from 'src/app/services/alert.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
@@ -22,7 +28,8 @@ import { SessionService } from 'src/app/services/session.service';
   styleUrl: './finding.component.css',
   imports: [
     AlertModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    DatePipe
   ],
 })
 export class FindingComponent {
@@ -36,6 +43,14 @@ export class FindingComponent {
   company: Company = {} as Company;
   project: Project = {} as Project;
   finding: Finding = {} as Finding;
+
+  findinStates: FindingState[] = [
+    {findingStateId: 1, description: 'Pendiente'},
+    {findingStateId: 2, description: 'Ok'},
+    {findingStateId: 3, description: 'Solicitado'},
+    {findingStateId: 4, description: 'En revisión'},
+    {findingStateId: 5, description: 'N/A'},
+  ]
 
   constructor(
     private sessionService: SessionService,
@@ -99,7 +114,7 @@ export class FindingComponent {
 
   }
 
-  openModal() {
+  private openCamSnapshotModal() {
     // console.log("openModal()");
     const dialogConfig = new MatDialogConfig();
 
@@ -108,32 +123,202 @@ export class FindingComponent {
     dialogConfig.data = {
         //organization: environment.defaultOranization,
         //algorithm: environment.defaultAlgorithm
+        finding: this.finding
     };
     dialogConfig.minWidth = 600;
 
-    const dialogRef = this.dialog.open(NewProjectComponent, dialogConfig);
+    const dialogRef = this.dialog.open(CamSnapshotComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(result => {
       // console.log(`Dialog result: ${result}`);
       if (result) {
 
-        // console.log('ok: '+result.url+' '+result.organization+' '+result.negocio+' '+result.area+' '+result.algorithm)
+        //console.log('ok');
+        this.finding.image = result.capturedPicture;
+        this.finding.date = new Date();
 
-        // [routerLink]="['/project', url.descripcion, {currentPage: pagConfig.currentPage, numberOfPages: pagConfig.numberOfPages, totalItems: pagConfig.totalItems, criteria: seek.value}]"
+        this.findingService.update(this.finding)
+        .subscribe(
+          // en data queda la nueva compania creada
+          (data)=>{
+            // success
+            console.log('finding successfully saved: '+data);
+          },
+          (error: HttpErrorResponse) => {
+            console.log('oops', error.message);
+            this.success = false;
+            if (error.status == 404) {
+              this.errorMessage = "No se encontaron registros";
+            }
+            else {
+              this.errorMessage = error.message;
+            }
+            // console.log("triggering error");
+            this.alertService.error(this.errorMessage, this.options);
 
-        //this.goToFindingDetail(result.findingId);
-        /*
-        this.router.navigate(['/project', {
-          currentPage: this.pagConfig.currentPage,
-          numberOfPages: this.pagConfig.numberOfPages,
-          totalItems: this.pagConfig.totalItems,
-          criteria: this.criteria,
-          newUrl: result.url,
-          organization: result.organization,
-          negocio: result.negocio,
-          area: result.area,
-          algorithm: result.algorithm }]);
-        */
+            //this.spinner.hide('sp3');
+          }
+        )
+      }
+    });
+  }
+
+  private openDescriptionInputTextModal() {
+    // console.log("openModal()");
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+        //organization: environment.defaultOranization,
+        //algorithm: environment.defaultAlgorithm
+        finding: this.finding,
+        modalTitle: 'Ingrese descrpción',
+        modalText: this.finding.description
+    };
+    dialogConfig.minWidth = 600;
+
+    const dialogRef = this.dialog.open(TextInputComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(result => {
+      // console.log(`Dialog result: ${result}`);
+      if (result) {
+
+        //console.log('ok');
+        this.finding.description = result.text;
+        this.finding.date = new Date();
+
+        this.findingService.update(this.finding)
+        .subscribe(
+          // en data queda la nueva compania creada
+          (data)=>{
+            // success
+            console.log('finding successfully saved: '+data);
+          },
+          (error: HttpErrorResponse) => {
+            console.log('oops', error.message);
+            this.success = false;
+            if (error.status == 404) {
+              this.errorMessage = "No se encontaron registros";
+            }
+            else {
+              this.errorMessage = error.message;
+            }
+            // console.log("triggering error");
+            this.alertService.error(this.errorMessage, this.options);
+
+            //this.spinner.hide('sp3');
+          }
+        )
+
+      }
+    });
+  }
+
+  private openCommentInputTextModal() {
+    // console.log("openModal()");
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+        //organization: environment.defaultOranization,
+        //algorithm: environment.defaultAlgorithm
+        finding: this.finding,
+        modalTitle: 'Ingrese comentario',
+        modalText: this.finding.comment
+    };
+    dialogConfig.minWidth = 600;
+
+    const dialogRef = this.dialog.open(TextInputComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(result => {
+      // console.log(`Dialog result: ${result}`);
+      if (result) {
+
+        //console.log('ok');
+        this.finding.comment = result.text;
+        this.finding.date = new Date();
+
+        this.findingService.update(this.finding)
+        .subscribe(
+          // en data queda la nueva compania creada
+          (data)=>{
+            // success
+            console.log('finding successfully saved: '+data);
+          },
+          (error: HttpErrorResponse) => {
+            console.log('oops', error.message);
+            this.success = false;
+            if (error.status == 404) {
+              this.errorMessage = "No se encontaron registros";
+            }
+            else {
+              this.errorMessage = error.message;
+            }
+            // console.log("triggering error");
+            this.alertService.error(this.errorMessage, this.options);
+
+            //this.spinner.hide('sp3');
+          }
+        )
+      }
+    });
+  }
+
+  private openFindingStateOptionModal() {
+    // console.log("openModal()");
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+        //organization: environment.defaultOranization,
+        //algorithm: environment.defaultAlgorithm
+        //finding: this.finding,
+        modalTitle: 'Seleccione estado del hallazgo',
+        modalSelected: this.finding.findingStateId,
+        findingStates: this.findinStates
+    };
+    dialogConfig.minWidth = 600;
+
+    const dialogRef = this.dialog.open(OptionHtmlComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(result => {
+      // console.log(`Dialog result: ${result}`);
+      if (result) {
+
+        //console.log('ok');
+        this.finding.findingStateId = result.findingStateId;
+        this.finding.date = new Date();
+
+        this.findingService.update(this.finding)
+        .subscribe(
+          // en data queda la nueva compania creada
+          (data)=>{
+            // success
+            console.log('finding successfully saved: '+data);
+
+            // actualizamos estado en pantalla
+            this.finding.findingState.description = this.findinStates.find((item) => { return item.findingStateId == this.finding.findingStateId})!.description; //.at(this.finding.findingStateId)?.description!;
+            // this.finding.findingState.findingStateId = data.findingState.findingStateId;
+          },
+          (error: HttpErrorResponse) => {
+            console.log('oops', error.message);
+            this.success = false;
+            if (error.status == 404) {
+              this.errorMessage = "No se encontaron registros";
+            }
+            else {
+              this.errorMessage = error.message;
+            }
+            // console.log("triggering error");
+            this.alertService.error(this.errorMessage, this.options);
+
+            //this.spinner.hide('sp3');
+          }
+        )
+
       }
     });
   }
@@ -214,22 +399,21 @@ export class FindingComponent {
   }
 
   public editDescription() {
-
-  }
-
-  public editAddress() {
-
+    // truco
+    this.openDescriptionInputTextModal();
   }
 
   public editComment() {
-
+    this.openCommentInputTextModal();
   }
 
   public editImage() {
-
+    this.openCamSnapshotModal();
   }
 
   public editStatus() {
-
+    this.openFindingStateOptionModal();
   }
+
+
 }

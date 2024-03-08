@@ -20,13 +20,19 @@
       </tr>
       <tr>
         <td>Imagen</td>
-        <td><img src="data:image/jpeg;base64,{{ finding.image }}" alt="evidencia" /></td>
+        <td><img src="{{ finding.image }}" alt="evidencia" /></td>
         <td><a (click)="editImage()"><img src="./assets/images/edit-32x32.png" alt="" title="Detalle" border="0" width=32 height=32 /></a></td>
 
       </tr>
       <tr>
         <td>Estado</td>
         <td><p>{{ finding.findingState.description }}</p></td>
+        <td><a (click)="editStatus()"><img src="./assets/images/edit-32x32.png" alt="" title="Detalle" border="0" width=32 height=32 /></a></td>
+
+      </tr>
+      <tr>
+        <td>Fecha</td>
+        <td><p>{{ finding.date | date:'dd-MMM-yyyy HH:mm' }}</p></td>
         <td><a (click)="editStatus()"><img src="./assets/images/edit-32x32.png" alt="" title="Detalle" border="0" width=32 height=32 /></a></td>
 
       </tr>
