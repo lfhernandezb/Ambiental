@@ -28,8 +28,8 @@ export enum ModalType {
   ]
 })
 export class CamSnapshotComponent implements AfterViewInit {
-  WIDTH = 320;
-  HEIGHT = 240;
+  WIDTH = 412;
+  HEIGHT = 309;
 
   modalType: ModalType = ModalType.INFO;
 
@@ -49,6 +49,9 @@ export class CamSnapshotComponent implements AfterViewInit {
 
   result: any;
 
+  height: number;
+  width: number;
+
   constructor(
     private findingService: FindingService,
     private dialogRef: MatDialogRef<CamSnapshotComponent>,
@@ -59,14 +62,50 @@ export class CamSnapshotComponent implements AfterViewInit {
   }
 
   async ngAfterViewInit() {
+    console.log('ngAfterViewInit');
+
+    const portrait = window.matchMedia("(orientation: portrait)").matches;
+
+    if (portrait) {
+      console.log('ngAfterViewInit: portrait');
+      this.setupPortrait();
+    } else {
+      console.log('ngAfterViewInit: landscape');
+      this.setupLandscape();
+    }
+
+    window.matchMedia("(orientation: portrait)").addEventListener("change", e => {
+      const portrait = e.matches;
+
+      if (portrait) {
+          console.log("portrait")
+          this.setupPortrait();
+
+      } else {
+          // do something else
+          console.log("landscape")
+          this.setupLandscape();
+      }
+    });
+
+    await this.getDevices();
+
     await this.setupDevices();
   }
 
+  async getDevices() {
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    console.log('devices: ', devices)
+  }
+
   async setupDevices() {
+
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: true
+        let stream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            facingMode: 'environment'
+          }
         });
         if (stream) {
           this.video.nativeElement.srcObject = stream;
@@ -79,12 +118,20 @@ export class CamSnapshotComponent implements AfterViewInit {
         this.error = e;
       }
     }
+
   }
 
   capture() {
+
+    this.height = this.video.nativeElement.offsetHeight;
+    this.width = this.video.nativeElement.offsetWidth;
+
+    console.log("height: "+this.height+" width: "+ this.width);
+
     this.drawImageToCanvas(this.video.nativeElement);
     this.capturedPicture = this.canvas.nativeElement.toDataURL("image/png");
     this.isCaptured = true;
+
   }
 
   removeCurrent() {
@@ -99,9 +146,17 @@ export class CamSnapshotComponent implements AfterViewInit {
   }
   */
   drawImageToCanvas(image: any) {
+
+    this.canvas.nativeElement.width = this.width;
+    this.canvas.nativeElement.height = this.height;
+
     this.canvas.nativeElement
       .getContext("2d")
-      .drawImage(image, 0, 0, this.WIDTH, this.HEIGHT);
+      .drawImage(image, 0, 0, this.width, this.height);
+
+    //this.canvas.nativeElement.width = this.width;
+    //this.canvas.nativeElement.height = this.height;
+
   }
 
   onNoClick(): void {
@@ -118,38 +173,15 @@ export class CamSnapshotComponent implements AfterViewInit {
     };
 
     this.dialogRef.close(this.result);
-    /*
-    // grabamos el finding
-    finding.identifier = this.ctrlIdentifier.value;
-    finding.description = '*';
-    finding.comment = '*';
-    finding.findingStateId = 1; // pendiente
-    finding.date = new Date();
-    finding.projectId = this.project.projectId;
+  }
 
-    this.findingService.save(finding)
-    .subscribe(
-      // en data queda la nueva compania creada
-      (data)=>{
-        // success
-        console.log('new company created: '+data);
-        this.dialogRef.close(data);
-      },
-      (error: HttpErrorResponse) => {
-        console.log('oops', error.message);
-        this.success = false;
-        if (error.status == 404) {
-          this.errorMessage = "No se encontaron registros";
-        }
-        else {
-          this.errorMessage = error.message;
-        }
-        // console.log("triggering error");
-        this.alertService.error(this.errorMessage, this.options);
+  private setupPortrait() {
+    // maximizamos el ancho
 
-        //this.spinner.hide('sp3');
-      }
-      */
+  }
+
+  private setupLandscape() {
+    //window.cli
   }
 
 }

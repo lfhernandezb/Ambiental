@@ -121,7 +121,37 @@ export class FindingComponent {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.minWidth = 260;
-    dialogConfig.width = "600px";
+
+    dialogConfig.width = "100vw";
+    //dialogConfig.height = "100vh";
+    dialogConfig.maxWidth = '100vw'
+    //dialogConfig.minHeight = 'calc(100vh - 90px)';
+    //dialogConfig.height = 'auto';
+
+    dialogConfig.height = "100vh";
+    dialogConfig.maxHeight = "100vh";
+    //dialogConfig.width = "100vw";
+    //dialogConfig.width = 'auto';
+    /*
+    const portrait = window.matchMedia("(orientation: portrait)").matches;
+
+    if (portrait) {
+      console.log('openCamSnapshotModal: portrait');
+      dialogConfig.width = "100vw";
+      //dialogConfig.height = "100vh";
+      dialogConfig.maxWidth = '100vw'
+      //dialogConfig.minHeight = 'calc(100vh - 90px)';
+      dialogConfig.height = 'auto';
+    } else {
+      console.log('openCamSnapshotModal: landscape');
+      dialogConfig.height = "100vh";
+      dialogConfig.maxHeight = "100vh";
+      //dialogConfig.width = "100vw";
+      dialogConfig.width = 'auto';
+    }
+    */
+
+
     dialogConfig.data = {
         //organization: environment.defaultOranization,
         //algorithm: environment.defaultAlgorithm

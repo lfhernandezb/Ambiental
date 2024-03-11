@@ -259,7 +259,8 @@ export class ProjectComponent {
     this.router.navigate(['/report', {
       projectId: this.projectId,
       companyName: this.company.name,
-      projectDescription: this.project.description
+      projectDescription: this.project.description,
+      projectAddress: this.project.address
     }]);
   }
 

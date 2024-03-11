@@ -7,6 +7,8 @@ import { FindingService } from 'src/app/services/finding.service';
 import { NgFor } from '@angular/common';
 import { NgxSpinnerComponent, NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { AlertModule } from 'src/app/alert/alert.module';
+import html2canvas from 'html2canvas';
+import jspdf from 'jspdf';
 
 @Component({
   selector: 'app-report',
@@ -25,6 +27,7 @@ export class ReportComponent implements OnInit {
   findingList: Finding[];
   companyName: string;
   projectDescription: string;
+  projectAddress: string;
   options: any;
 
   constructor(
@@ -39,6 +42,7 @@ export class ReportComponent implements OnInit {
     this.projectId = this.route.snapshot.paramMap.get('projectId')!;
     this.companyName = this.route.snapshot.paramMap.get('companyName')!;
     this.projectDescription = this.route.snapshot.paramMap.get('projectDescription')!;
+    this.projectAddress = this.route.snapshot.paramMap.get('projectAddress')!;
 
     // para mensajes de error
     this.options = {
@@ -78,4 +82,67 @@ export class ReportComponent implements OnInit {
     );
   }
 
+  public convetToPDF() {
+    /*
+    var data = document.getElementById('contentToConvert');
+    html2canvas(data!).then(canvas => {
+    // Few necessary setting options
+    var imgWidth = 208;
+    var pageHeight = 295;
+    var imgHeight = canvas.height * imgWidth / canvas.width;
+    var heightLeft = imgHeight;
+
+    const contentDataURL = canvas.toDataURL('image/png')
+    let pdf = new jspdf('p', 'mm', 'letter'); // A4 size page of PDF
+    var position = 0;
+    pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)
+    pdf.save('new-file.pdf'); // Generated PDF
+    });
+    */
+    if(screen.width < 1024) {
+      document.getElementById("viewport")!.setAttribute("content", "width=1200px");
+    }
+
+    // para margenes
+    const padding = document.getElementById("toAddPadding")!.style.padding;
+
+    document.getElementById("toAddPadding")!.style.padding = "100px 200px";
+
+    const data = document.getElementById('contentToConvert');
+    let html2canvasOptions = {
+      allowTaint: true,
+      removeContainer: true,
+      backgroundColor: null,
+      imageTimeout: 15000,
+      logging: true,
+      scale: 2,
+      useCORS: true
+    };
+    html2canvas(data!, html2canvasOptions).then(canvas => {
+      // Few necessary setting options
+      const contentDataURL = canvas.toDataURL('image/png')
+      const imgWidth = 210;
+      const pageHeight = 295;
+      const imgHeight = canvas.height * imgWidth / canvas.width;
+      let heightLeft = imgHeight;
+      let pdf = new jspdf('p', 'mm', 'letter', true); // letter size page of PDF
+      let position = 0;
+
+      pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight, undefined,'FAST');
+      heightLeft -= pageHeight;
+
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight, undefined,'FAST')
+        heightLeft -= pageHeight;
+      }
+      pdf.save('resume.pdf'); // Generated PDF
+      if(screen.width < 1024) {
+        document.getElementById("viewport")!.setAttribute("content", "width=device-width, initial-scale=1");
+      }
+
+      document.getElementById("toAddPadding")!.style.padding = padding;
+    });
+  }
 }

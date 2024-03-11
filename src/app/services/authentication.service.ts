@@ -44,8 +44,16 @@ export class AuthenticationService {
       return user != null;
       //return false;
       */
+    let ls = localStorage.getItem('user');
+    if (ls) {
+      if (JSON.parse(ls)) {
+        console.log('AuthenticationService::isAuthenticated returning true');
+        return true;
+      }
+    }
 
-      return JSON.parse(localStorage.getItem('user')!) != null;
+    console.log('AuthenticationService::isAuthenticated returning false');
+    return false;
   }
 
   login(username: string, password: string) {
