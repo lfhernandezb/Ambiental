@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('build') {
       steps {
-        sh 'nvm use 18'
+        sh 'npm install'
         sh 'ng build --base-href /ambiental-fe/ --configuration qa'
       }
     }
