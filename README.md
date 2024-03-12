@@ -103,3 +103,10 @@ import {HttpClientModule} from '@angular/common/http';
 in class that will use it:
 
 import {HttpClient} from "@angular/common/http";
+
+deploy
+
+ng build --base-href /ambiental-fe/ --configuration qa
+sudo rm -rf /Users/apache/apache/htdocs/ambiental-fe/
+sudo cp -R dist/ambiental-fe /Users/apache/apache/htdocs/
+sudo chown -R apache:staff /Users/apache/apache/htdocs/ambiental-fe/

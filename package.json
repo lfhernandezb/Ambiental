@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build-qa": "ng build --href-base ambiental-fe --configuration development",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:xyz": "node dist/xyz/server/server.mjs"
