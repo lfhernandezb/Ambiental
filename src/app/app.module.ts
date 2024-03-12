@@ -7,7 +7,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 
 import { HttpClientModule } from '@angular/common/http';
 import { LayoutModule } from './layout/layout.module';
-import { CommonModule } from '@angular/common';
+import { APP_BASE_HREF, CommonModule } from '@angular/common';
 import { HomeModule } from './home/home.module';
 import { BnNgIdleService } from 'bn-ng-idle'; // import bn-ng-idle service
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -53,6 +53,7 @@ import { ReportComponent } from './report/report/report.component';
   providers: [
     BnNgIdleService,
     provideAnimationsAsync(),
+    {provide: APP_BASE_HREF, useValue: '/ambiental-fe'}
     //CompanyValidatorService,
     //CompanyService
   ],
