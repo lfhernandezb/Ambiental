@@ -3,7 +3,11 @@ pipeline {
   stages {
     stage('build') {
       steps {
+        sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash'
+        sh 'nvm install 18'
+        sh 'nvm use 18'
         sh 'npm install'
+        sh 'npm install @angular/cli'
         sh 'ng build --base-href /ambiental-fe/ --configuration qa'
       }
     }
