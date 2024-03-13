@@ -13,9 +13,9 @@ pipeline {
     }
     stage('deploy') {
       steps {
-        sh 'sudo rm -rf /Users/lfhernandez/apache/apache/htdocs/ambiental-fe/'
-        sh 'sudo cp -R dist/ambiental-fe /Users/apache/apache/htdocs/'
-        sh 'sudo chown -R apache:staff /Users/apache/apache/htdocs/ambiental-fe/'
+        sh 'rm -rf /Users/lfhernandez/apache/apache/htdocs/ambiental-fe/'
+        sh 'cp -R dist/ambiental-fe /Users/apache/apache/htdocs/'
+        sh 'chown -R daemon:daemon /Users/apache/apache/htdocs/ambiental-fe/'
       }
     }
 
