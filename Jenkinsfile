@@ -3,19 +3,20 @@ pipeline {
   stages {
     stage('build') {
       steps {
-        nodejs('NODEJS'){
-          //here your npm commands p.e.
+        nodejs('NODEJS') {
           sh 'npm install'
           sh 'npm install -g @angular/cli'
           sh 'ng build --base-href /ambiental-fe/ --configuration qa'
         }
+
       }
     }
+
     stage('deploy') {
+      agent any
       steps {
-        sh 'rm -rf /Users/lfhernandez/apache/apache/htdocs/ambiental-fe/'
-        sh 'cp -R dist/ambiental-fe /Users/apache/apache/htdocs/'
-        sh 'chown -R daemon:daemon /Users/apache/apache/htdocs/ambiental-fe/'
+        sh 'ssh apache@192.168.1.155 "rm -rf apache/apache/htdocs/ambiental-fe"'
+        sh 'scp -R dist/ambiental-fe apache@192.168.1.155:apache/htdocs/'
       }
     }
 
