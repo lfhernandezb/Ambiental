@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('build') {
       steps {
-        nodejs('NODEJS') {
+        nodejs('NODEJS_18') {
           sh 'npm install'
           sh 'npm install -g @angular/cli'
           sh 'ng build --base-href /ambiental-fe/ --configuration qa'
