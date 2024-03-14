@@ -16,7 +16,7 @@ pipeline {
       agent any
       steps {
         sh 'ssh apache@192.168.1.155 "rm -rf apache/htdocs/ambiental-fe"'
-        sh 'scp -R /var/jenkins_home/workspace/Ambiental_report/dist/ambiental-fe apache@192.168.1.155:apache/htdocs/'
+        sh 'scp -r /var/jenkins_home/workspace/Ambiental_report/dist/ambiental-fe apache@192.168.1.155:apache/htdocs/'
       }
     }
 
