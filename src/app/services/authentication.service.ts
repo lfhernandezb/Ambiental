@@ -19,7 +19,7 @@ export class AuthenticationService {
   // store the URL so we can redirect after logging in
   public redirectUrl: string | null = null;
 
-  // initialises the userSubject with the user object from localStorage
+  // initialises the userSubject with the user object from sessionStorage
   // which enables the user to stay logged in between page refreshes or
   // after the browser is closed
   constructor(
@@ -27,7 +27,7 @@ export class AuthenticationService {
       private http: HttpClient,
       private sessionService: SessionService
   ) {
-      this.userSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('user')!));
+      this.userSubject = new BehaviorSubject<User>(JSON.parse(sessionStorage.getItem('user')!));
       this.user = this.userSubject.asObservable();
   }
 
@@ -44,7 +44,7 @@ export class AuthenticationService {
       return user != null;
       //return false;
       */
-    let ls = localStorage.getItem('user');
+    let ls = sessionStorage.getItem('user');
     if (ls) {
       if (JSON.parse(ls)) {
         console.log('AuthenticationService::isAuthenticated returning true');
@@ -78,7 +78,7 @@ export class AuthenticationService {
                 // store user details and basic auth credentials in local storage to keep user logged in between page refreshes
                 user.authdata = window.btoa(username + ':' + password);
                 //user.name = user['name'];
-                localStorage.setItem('user', JSON.stringify(user));
+                sessionStorage.setItem('user', JSON.stringify(user));
                 //  The user object is then published to all subscribers
                 this.userSubject.next(user);
                 return user;
@@ -90,8 +90,8 @@ export class AuthenticationService {
 
   logout() {
       // remove user from local storage to log user out
-      localStorage.removeItem('user');
-      localStorage.removeItem('session');
+      sessionStorage.removeItem('user');
+      sessionStorage.removeItem('session');
       this.sessionService.resetSessionData();
       //  publishes null to all subscribers
       this.userSubject.next({} as any);

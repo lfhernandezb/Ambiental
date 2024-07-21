@@ -57,7 +57,16 @@ ng generate module company
 cd src/app/company/
 ng generate component company
 
-ng generate module company-routing
+ng generate module company-routing --routing
+
+# otra forma de generar el modulo
+
+ng generate module company --route company --module app.module
+
+# This creates a new directory called company containing the CompanyModule and CompanyRoutingModule, 
+# along with the new CompanyComponent source files. The orders route, specified with the --route 
+# option, is added to the routes array inside the app-routing.module.ts file, using the
+# lazy-loading syntax.
 
 cd ../../../
 
@@ -78,13 +87,13 @@ cd ../../../
 ng generate module project
 cd src/app/project/
 ng generate component project
-ng generate module project-routing
+ng generate module project-routing --routing
 
 cd ../../../
 ng generate module finding
 cd src/app/finding/
 ng generate component finding
-ng generate module finding-routing
+ng generate module finding-routing --routing
 
 
 
@@ -103,6 +112,46 @@ import {HttpClientModule} from '@angular/common/http';
 in class that will use it:
 
 import {HttpClient} from "@angular/common/http";
+
+# To create a new application with SSR, run:
+      
+ng new --ssr   
+
+# To add SSR to an existing project, use the Angular CLI ng add command.
+    
+ng add @angular/ssr
+
+# These commands create and update application code to enable SSR and adds extra files to the project structure.
+
+
+
+# When SSR is enabled, HttpClient responses are cached while running on the server. After that this information is serialized and transferred to a browser as a part of the initial HTML sent from the server. In a browser, HttpClient checks whether it has data in the cache and if so, reuses it instead of making a new HTTP request during initial application rendering. HttpClient stops using the cache once an application becomes stable while running in a browser.
+
+# Caching is performed by default for all HEAD and GET requests. You can configure this cache by using withHttpTransferCacheOptions when providing hydration.
+    
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideClientHydration(
+      withHttpTransferCacheOptions({
+        includePostRequests: true,
+      }),
+    ),
+  ],
+});
+
+# how to enable hydration: Alternatively if you are using NgModules, you would add provideClientHydration to your root app module's provider list.
+    
+import {provideClientHydration} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+
+@NgModule({
+  declarations: [RootCmp],
+  exports: [RootCmp],
+  bootstrap: [RootCmp],
+  providers: [provideClientHydration()],
+})
+export class AppModule {}
+
 
 deploy
 

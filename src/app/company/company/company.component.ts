@@ -19,15 +19,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-project',
-    standalone: true,
+    standalone: false,
     templateUrl: './company.component.html',
     styleUrl: './company.component.css',
-    imports: [
-      AlertModule,
-      NgxPaginationModule,
-      NgxSpinnerModule,
-      NgFor
-    ]
 })
 export class CompanyComponent {
   company: Company = {} as any;

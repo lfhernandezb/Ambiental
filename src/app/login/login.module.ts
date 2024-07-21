@@ -4,24 +4,25 @@ import { AlertModule } from '../alert/alert.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MaterialModule } from '../material/material.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { CompanyRoutingModule } from './company-routing.module';
-import { CompanyComponent } from './company/company.component';
+import { LoginRoutingModule } from './login-routing.module';
+import { ReactiveFormsModule } from '@angular/forms';
+import { LoginComponent } from './login/login.component';
 
 
 
 @NgModule({
   declarations: [
-    CompanyComponent
+    LoginComponent
   ],
   imports: [
     CommonModule,
-    CompanyRoutingModule,
-    NgxPaginationModule,
-    NgxSpinnerModule,
-    AlertModule,
-    NgxPaginationModule,
-    NgxSpinnerModule,
+    LoginRoutingModule,
+    ReactiveFormsModule
+    //NgxPaginationModule,
+    //AlertModule,
+    //MaterialModule,
+    //NgxSpinnerModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class CompanyModule { }
+export class LoginModule { }

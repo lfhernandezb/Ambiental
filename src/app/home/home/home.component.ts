@@ -18,15 +18,9 @@ import { SessionService } from 'src/app/services/session.service';
 
 @Component({
   selector: 'app-home',
-  standalone: true,
+  standalone: false,
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
-  imports: [
-    AlertModule,
-    NgxPaginationModule,
-    NgxSpinnerModule,
-    NgFor
-  ]
 })
 export class HomeComponent implements OnInit {
 

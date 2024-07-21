@@ -12,14 +12,9 @@ import jspdf from 'jspdf';
 
 @Component({
   selector: 'app-report',
-  standalone: true,
+  standalone: false,
   templateUrl: './report.component.html',
   styleUrls: ['./report.component.css'],
-  imports: [
-    AlertModule,
-    NgxSpinnerModule,
-    NgFor
-  ]
 })
 export class ReportComponent implements OnInit {
   projectId: string;

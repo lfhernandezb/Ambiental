@@ -22,15 +22,9 @@ import { environment } from 'src/environments/environment';
 
 @Component({
     selector: 'app-project',
-    standalone: true,
+    standalone: false,
     templateUrl: './project.component.html',
     styleUrl: './project.component.css',
-    imports: [
-      AlertModule,
-      NgxPaginationModule,
-      NgxSpinnerModule,
-      NgFor
-    ]
 })
 export class ProjectComponent {
   options: any;

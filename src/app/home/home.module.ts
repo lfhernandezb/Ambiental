@@ -5,15 +5,18 @@ import { AlertModule } from '../alert/alert.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { MaterialModule } from '../material/material.module';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { HomeRoutingModule } from './home-routing.module';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    HomeComponent
+  ],
   imports: [
     CommonModule,
-    //NgxPaginationModule,
-    //AlertModule,
-    //MaterialModule,
-    //NgxSpinnerModule,
+    HomeRoutingModule,
+    AlertModule,
+    NgxPaginationModule,
+    NgxSpinnerModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

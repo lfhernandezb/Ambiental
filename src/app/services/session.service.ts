@@ -11,18 +11,18 @@ export class SessionService {
   constructor() { }
 
   public save() {
-    localStorage.setItem('session', JSON.stringify(SessionService.session));
+    sessionStorage.setItem('session', JSON.stringify(SessionService.session));
   }
 
   public retrieve() {
-    let str = localStorage.getItem('session');
+    let str = sessionStorage.getItem('session');
     if (str != null) {
       SessionService.session = JSON.parse(str);
     }
   }
 
   public resetSessionData() {
-    //localStorage.removeItem('sesion');
+    //sessionStorage.removeItem('sesion');
     //SessionService.session.reset();
 
     SessionService.session.homePaginationConfig.currentPage = 0;
@@ -58,7 +58,7 @@ export class SessionService {
   }
 
   public resetHomeSessionData() {
-    //localStorage.removeItem('sesion');
+    //sessionStorage.removeItem('sesion');
     //SessionService.session.reset();
 
     SessionService.session.homePaginationConfig.currentPage = 0;
@@ -70,7 +70,7 @@ export class SessionService {
   }
 
   public resetCompanySessionData() {
-    //localStorage.removeItem('sesion');
+    //sessionStorage.removeItem('sesion');
     //SessionService.session.reset();
 
     SessionService.session.companyCriteria = '';
@@ -85,7 +85,7 @@ export class SessionService {
   }
 
   public resetProjectSessionData() {
-    //localStorage.removeItem('sesion');
+    //sessionStorage.removeItem('sesion');
     //SessionService.session.reset();
 
     SessionService.session.projectId = '';
@@ -100,7 +100,7 @@ export class SessionService {
   }
 
   public resetFindingSessionData() {
-    //localStorage.removeItem('sesion');
+    //sessionStorage.removeItem('sesion');
     //SessionService.session.reset();
 
     SessionService.session.findingId = '';

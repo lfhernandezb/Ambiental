@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -26,34 +26,36 @@ import { CamSnapshotComponent } from './dialogs/cam-snapshot/cam-snapshot.compon
 import { TextInputComponent } from './dialogs/text-input/text-input.component';
 import { OptionHtmlComponent } from './dialogs/option-html/option-html.component';
 import { ReportComponent } from './report/report/report.component';
+import { LoginModule } from './login/login.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     PageNotFoundComponent,
-    LoginComponent,
   ],
   imports: [
-    OptionHtmlComponent,
-    TextInputComponent,
-    CamSnapshotComponent,
+    //OptionHtmlComponent,
+    //TextInputComponent,
+    //CamSnapshotComponent,
     AppRoutingModule,
     BrowserModule,
     LayoutModule,
-    CompanyComponent,
-    HomeComponent,
+    //CompanyComponent,
+    //HomeComponent,
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
     MaterialModule,
-    NewCompanyComponent,
-    NewProjectComponent,
-    NewFindingComponent
+    //NewCompanyComponent,
+    //NewProjectComponent,
+    //NewFindingComponent
+    //LoginModule
   ],
   providers: [
     BnNgIdleService,
     provideAnimationsAsync(),
-    {provide: APP_BASE_HREF, useValue: '/ambiental-fe'}
+    {provide: APP_BASE_HREF, useValue: '/ambiental-fe'},
+    provideClientHydration()
     //CompanyValidatorService,
     //CompanyService
   ],

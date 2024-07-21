@@ -23,14 +23,9 @@ import { SessionService } from 'src/app/services/session.service';
 
 @Component({
   selector: 'app-finding',
-  standalone: true,
+  standalone: false,
   templateUrl: './finding.component.html',
   styleUrl: './finding.component.css',
-  imports: [
-    AlertModule,
-    NgxSpinnerModule,
-    DatePipe
-  ],
 })
 export class FindingComponent {
   options: any;
