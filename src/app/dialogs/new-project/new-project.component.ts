@@ -60,11 +60,11 @@ export class NewProjectComponent {
     this.modalTitle = data.title;
     this.modalMessage = data.message;
     this.company = data.company;
-    console.log(data)
+    // console.log(data)
   }
 
   ngOnInit() {
-    console.log("companyService: "+this.companyService)
+    // console.log("companyService: "+this.companyService)
       this.ctrlDescription = new FormControl(
         this.description,
         [
@@ -131,18 +131,18 @@ export class NewProjectComponent {
 
   ok() {
     let project: Project = {} as Project;
-    console.log("ok()")
+    // console.log("ok()")
 
     this.result = {
       description: this.ctrlDescription.value,
       address: this.ctrlAddress.value
     };
 
-    console.log('result: '+this.result)
+    // console.log('result: '+this.result)
 
-    console.log('this.ctrlDescription.valid: '+this.ctrlDescription.valid)
+    // console.log('this.ctrlDescription.valid: '+this.ctrlDescription.valid)
 
-    console.log('this.ctrlAddress.valid: '+this.ctrlAddress.valid)
+    // console.log('this.ctrlAddress.valid: '+this.ctrlAddress.valid)
 
     if (!this.ctrlDescription.errors && !this.ctrlAddress.errors) {
       // grabamos nueva company
@@ -155,11 +155,11 @@ export class NewProjectComponent {
         // en data queda la nueva compania creada
         (data)=>{
           // success
-          console.log('new company created: '+data);
+          // console.log('new company created: '+data);
           this.dialogRef.close(data);
         },
         (error: HttpErrorResponse) => {
-          console.log('oops', error.message);
+          // console.log('oops', error.message);
           this.success = false;
           if (error.status == 404) {
             this.errorMessage = "No se encontaron registros";
@@ -177,7 +177,7 @@ export class NewProjectComponent {
   }
   /*
   close() {
-    console.log("close()")
+    // console.log("close()")
     this.dialogRef.close();
   }
   */

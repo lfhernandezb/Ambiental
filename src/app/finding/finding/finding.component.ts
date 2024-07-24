@@ -63,7 +63,7 @@ export class FindingComponent {
   }
 
   ngOnInit(): void {
-    console.log('Finding OnInit');
+    // console.log('Finding OnInit');
     this.sessionService.retrieve();
     // truco: en typescript/javascript las variables basicas no se pueden pasar como referencia
     // por lo que se crea un objeto cuyo contenido es el string que queremos modificar
@@ -78,7 +78,7 @@ export class FindingComponent {
     // strCurrentPage: string;
     // this.backendCompany = environment.apiUrl;
 
-    console.log("isAuthenticated: " + this.authenticationService.isAuthenticated());
+    // console.log("isAuthenticated: " + this.authenticationService.isAuthenticated());
 
     if (!this.authenticationService.isAuthenticated()) {
       this.router.navigate(['/login']);
@@ -131,14 +131,14 @@ export class FindingComponent {
     const portrait = window.matchMedia("(orientation: portrait)").matches;
 
     if (portrait) {
-      console.log('openCamSnapshotModal: portrait');
+      // console.log('openCamSnapshotModal: portrait');
       dialogConfig.width = "100vw";
       //dialogConfig.height = "100vh";
       dialogConfig.maxWidth = '100vw'
       //dialogConfig.minHeight = 'calc(100vh - 90px)';
       dialogConfig.height = 'auto';
     } else {
-      console.log('openCamSnapshotModal: landscape');
+      // console.log('openCamSnapshotModal: landscape');
       dialogConfig.height = "100vh";
       dialogConfig.maxHeight = "100vh";
       //dialogConfig.width = "100vw";
@@ -159,7 +159,7 @@ export class FindingComponent {
       // console.log(`Dialog result: ${result}`);
       if (result) {
 
-        //console.log('ok');
+        //// console.log('ok');
         this.finding.image = result.capturedPicture;
         this.finding.date = new Date();
 
@@ -168,10 +168,10 @@ export class FindingComponent {
           // en data queda la nueva compania creada
           (data)=>{
             // success
-            console.log('finding successfully saved: '+data);
+            // console.log('finding successfully saved: '+data);
           },
           (error: HttpErrorResponse) => {
-            console.log('oops', error.message);
+            // console.log('oops', error.message);
             this.success = false;
             if (error.status == 404) {
               this.errorMessage = "No se encontaron registros";
@@ -211,7 +211,7 @@ export class FindingComponent {
       // console.log(`Dialog result: ${result}`);
       if (result) {
 
-        //console.log('ok');
+        //// console.log('ok');
         this.finding.description = result.text;
         this.finding.date = new Date();
 
@@ -220,10 +220,10 @@ export class FindingComponent {
           // en data queda la nueva compania creada
           (data)=>{
             // success
-            console.log('finding successfully saved: '+data);
+            // console.log('finding successfully saved: '+data);
           },
           (error: HttpErrorResponse) => {
-            console.log('oops', error.message);
+            // console.log('oops', error.message);
             this.success = false;
             if (error.status == 404) {
               this.errorMessage = "No se encontaron registros";
@@ -264,7 +264,7 @@ export class FindingComponent {
       // console.log(`Dialog result: ${result}`);
       if (result) {
 
-        //console.log('ok');
+        //// console.log('ok');
         this.finding.comment = result.text;
         this.finding.date = new Date();
 
@@ -273,10 +273,10 @@ export class FindingComponent {
           // en data queda la nueva compania creada
           (data)=>{
             // success
-            console.log('finding successfully saved: '+data);
+            // console.log('finding successfully saved: '+data);
           },
           (error: HttpErrorResponse) => {
-            console.log('oops', error.message);
+            // console.log('oops', error.message);
             this.success = false;
             if (error.status == 404) {
               this.errorMessage = "No se encontaron registros";
@@ -317,7 +317,7 @@ export class FindingComponent {
       // console.log(`Dialog result: ${result}`);
       if (result) {
 
-        //console.log('ok');
+        //// console.log('ok');
         this.finding.findingStateId = result.findingStateId;
         this.finding.date = new Date();
 
@@ -326,14 +326,14 @@ export class FindingComponent {
           // en data queda la nueva compania creada
           (data)=>{
             // success
-            console.log('finding successfully saved: '+data);
+            // console.log('finding successfully saved: '+data);
 
             // actualizamos estado en pantalla
             this.finding.findingState.description = this.findinStates.find((item) => { return item.findingStateId == this.finding.findingStateId})!.description; //.at(this.finding.findingStateId)?.description!;
             // this.finding.findingState.findingStateId = data.findingState.findingStateId;
           },
           (error: HttpErrorResponse) => {
-            console.log('oops', error.message);
+            // console.log('oops', error.message);
             this.success = false;
             if (error.status == 404) {
               this.errorMessage = "No se encontaron registros";
@@ -365,7 +365,7 @@ export class FindingComponent {
 
       },
       (error) => {
-        console.log('oops', error);
+        // console.log('oops', error);
         this.success = false;
         this.errorMessage = error;
         // console.log("triggering error");
@@ -390,7 +390,7 @@ export class FindingComponent {
 
       },
       (error) => {
-        console.log('oops', error);
+        // console.log('oops', error);
         this.success = false;
         this.errorMessage = error;
         // console.log("triggering error");
@@ -415,7 +415,7 @@ export class FindingComponent {
 
       },
       (error) => {
-        console.log('oops', error);
+        // console.log('oops', error);
         this.success = false;
         this.errorMessage = error;
         // console.log("triggering error");

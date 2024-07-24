@@ -58,19 +58,19 @@ export class CamSnapshotComponent implements AfterViewInit {
     @Inject(MAT_DIALOG_DATA) public data: any) {
     // vienen de DialogConfig.data desde project component onNew->openModal
     this.finding = data.finding;
-    console.log(data)
+    // console.log(data)
   }
 
   async ngAfterViewInit() {
-    console.log('ngAfterViewInit');
+    // console.log('ngAfterViewInit');
 
     const portrait = window.matchMedia("(orientation: portrait)").matches;
 
     if (portrait) {
-      console.log('ngAfterViewInit: portrait');
+      // console.log('ngAfterViewInit: portrait');
       this.setupPortrait();
     } else {
-      console.log('ngAfterViewInit: landscape');
+      // console.log('ngAfterViewInit: landscape');
       this.setupLandscape();
     }
 
@@ -78,12 +78,12 @@ export class CamSnapshotComponent implements AfterViewInit {
       const portrait = e.matches;
 
       if (portrait) {
-          console.log("portrait")
+          // console.log("portrait")
           this.setupPortrait();
 
       } else {
           // do something else
-          console.log("landscape")
+          // console.log("landscape")
           this.setupLandscape();
       }
     });
@@ -95,7 +95,7 @@ export class CamSnapshotComponent implements AfterViewInit {
 
   async getDevices() {
     const devices = await navigator.mediaDevices.enumerateDevices();
-    console.log('devices: ', devices)
+    // console.log('devices: ', devices)
   }
 
   async setupDevices() {
@@ -126,7 +126,7 @@ export class CamSnapshotComponent implements AfterViewInit {
     this.height = this.video.nativeElement.offsetHeight;
     this.width = this.video.nativeElement.offsetWidth;
 
-    console.log("height: "+this.height+" width: "+ this.width);
+    // console.log("height: "+this.height+" width: "+ this.width);
 
     this.drawImageToCanvas(this.video.nativeElement);
     this.capturedPicture = this.canvas.nativeElement.toDataURL("image/png");
@@ -166,7 +166,7 @@ export class CamSnapshotComponent implements AfterViewInit {
 
   ok() {
     //let finding: Finding = {} as Finding;
-    console.log("ok()")
+    // console.log("ok()")
 
     this.result = {
       capturedPicture: this.capturedPicture

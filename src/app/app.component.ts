@@ -39,7 +39,7 @@ export class AppComponent {
       // activamos session timeout
       this.bnIdle.startWatching(environment.sessionTimeout).subscribe((isTimedOut: boolean) => {
         if (isTimedOut) {
-          //console.log('session expired');
+          //// console.log('session expired');
           this.logout();
           this.bnIdle.stopTimer();
         }
@@ -49,7 +49,7 @@ export class AppComponent {
 
   @HostListener('window:unload', [ '$event' ])
   unloadHandler(event: any) {
-    console.log('window unload');
+    // console.log('window unload');
     //this.logout();
   }
 
@@ -61,7 +61,7 @@ export class AppComponent {
 
   @HostListener('window:load', [ '$event' ])
   loadHandler(event: any) {
-    console.log('window load');
+    // console.log('window load');
     this.sessionService.retrieve();
   }
 

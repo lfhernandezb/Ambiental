@@ -54,14 +54,14 @@ export class ReportComponent implements OnInit {
     getByDescriptionContainingAndProjectId('', this.projectId).
     subscribe(
       (data)=>{
-        console.log(data);
+        // console.log(data);
         this.findingList = data as Finding[];
 
         this.spinner.hide('sp3');
 
       },
       (error) => {
-        console.log('oops', error);
+        // console.log('oops', error);
         if (error.status == 404) {
           this.alertService.info('No se encontraron registros', this.options);
         }

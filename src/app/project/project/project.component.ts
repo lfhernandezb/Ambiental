@@ -60,7 +60,7 @@ export class ProjectComponent {
   }
 
   ngOnInit(): void {
-    console.log('Project OnInit');
+    // console.log('Project OnInit');
     this.sessionService.retrieve();
     // truco: en typescript/javascript las variables basicas no se pueden pasar como referencia
     // por lo que se crea un objeto cuyo contenido es el string que queremos modificar
@@ -78,7 +78,7 @@ export class ProjectComponent {
     // strCurrentPage: string;
     // this.backendCompany = environment.apiUrl;
 
-    console.log("isAuthenticated: " + this.authenticationService.isAuthenticated());
+    // console.log("isAuthenticated: " + this.authenticationService.isAuthenticated());
 
     if (!this.authenticationService.isAuthenticated()) {
       this.router.navigate(['/login']);
@@ -242,7 +242,7 @@ export class ProjectComponent {
       },
       error => {
         //this.error = error // error path
-        console.log('error:' + error)
+        // console.log('error:' + error)
         alert(error)
       }
     );
@@ -267,7 +267,7 @@ export class ProjectComponent {
       (response: any) => {
 
         //let blob = new Blob([response.body], { type: "application/octet-stream" });
-        //console.log('headers:')
+        //// console.log('headers:')
         const blob = new Blob([response.body], { type: response.headers.get('Content-Type') });
         const fileName = response.headers.get('Content-Disposition').split(';')[1].split('=')[1].replace(/\"/g, ''); //response.headers.get('content-disposition').split(';')[0];
         //let url = window.URL.createObjectURL(blob).split(':')[1];
@@ -303,7 +303,7 @@ export class ProjectComponent {
 
       },
       (error) => {
-        console.log('oops', error);
+        // console.log('oops', error);
         this.success = false;
         this.errorMessage = error;
         // console.log("triggering error");
@@ -328,7 +328,7 @@ export class ProjectComponent {
 
       },
       (error) => {
-        console.log('oops', error);
+        // console.log('oops', error);
         this.success = false;
         this.errorMessage = error;
         // console.log("triggering error");
@@ -349,7 +349,7 @@ export class ProjectComponent {
     getByDescriptionContainingAndProjectId(this.criteria, this.projectId).
     subscribe(
       (data)=>{
-        console.log(data);
+        // console.log(data);
         this.findingList = data as Finding[];
         this.pagConfig.totalItems = this.findingList.length;
 
@@ -378,7 +378,7 @@ export class ProjectComponent {
 
       },
       (error) => {
-        console.log('oops', error);
+        // console.log('oops', error);
         this.success = false;
         if (error.status == 404) {
           this.alertService.info('No se encontraron registros', this.options);

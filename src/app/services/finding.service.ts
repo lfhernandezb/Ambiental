@@ -53,7 +53,7 @@ export class FindingService {
     this.getByDescriptionContainingAndProjectId(description, companyId).
       subscribe(
         (data)=>{
-          console.log(data);
+          // console.log(data);
           let findingList = data as Finding[];
 
           if (findingList.length > 0) {
@@ -65,7 +65,7 @@ export class FindingService {
 
         },
         (error) => {
-          console.log('oops', error);
+          // console.log('oops', error);
           //return null;
         }
     );

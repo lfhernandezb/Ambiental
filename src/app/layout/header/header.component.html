@@ -14,12 +14,12 @@
         <!--li class="nav-item">
           <a class="nav-link" routerLinkActive="active" routerLink="/home">Empresas</a>
         </li-->
-        <li class="nav-item">
+        <!--li class="nav-item">
           <a *ngIf="!authenticated()" class="nav-link" routerLinkActive="active" routerLink="/login">Login</a>
         </li>
         <li class="nav-item">
           <a *ngIf="authenticated()" class="nav-link" (click)="logout()">Logout</a>
-        </li>
+        </li-->
         <!--li class="nav-item">
           <p *ngIf="authenticated()" class="navbar-text">Welcome, {{ user.name }}</p>
         </li-->
@@ -28,7 +28,7 @@
         <span class="navbar-text">
           Bienvenido, {{ user.name }}
         </span>
-        <button type="button" class="btn btn-link">Logout</button>
+        <button type="button" class="btn btn-link" (click)="logout()">Logout</button>
       </div>
 
     </div>

@@ -46,7 +46,7 @@ export class CompanyService {
     this.getByName(company).
       subscribe(
         (data)=>{
-          console.log(data);
+          // console.log(data);
           let companyList = data as Company[];
 
           if (companyList.length > 0) {
@@ -58,7 +58,7 @@ export class CompanyService {
 
         },
         (error) => {
-          console.log('oops', error);
+          // console.log('oops', error);
           //return null;
         }
     );

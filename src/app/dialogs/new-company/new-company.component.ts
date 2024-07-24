@@ -53,11 +53,11 @@ export class NewCompanyComponent {
     // vienen de DialogConfig.data desde company component onNew->openModal
     this.modalTitle = data.title;
     this.modalMessage = data.message;
-    console.log(data)
+    // console.log(data)
   }
 
   ngOnInit() {
-    console.log("companyService: "+this.companyService)
+    // console.log("companyService: "+this.companyService)
       this.ctrlName = new FormControl(
         this.name,
         [
@@ -101,15 +101,15 @@ export class NewCompanyComponent {
 
   ok() {
     let company: Company = {} as Company;
-    console.log("ok()")
+    // console.log("ok()")
 
     this.result = {
       name: this.ctrlName.value
     };
 
-    console.log('result: '+this.result)
+    // console.log('result: '+this.result)
 
-    console.log('this.ctrlName.valid: '+this.ctrlName.valid)
+    // console.log('this.ctrlName.valid: '+this.ctrlName.valid)
 
     if (!this.ctrlName.errors) {
       // grabamos nueva company
@@ -119,11 +119,11 @@ export class NewCompanyComponent {
         // en data queda la nueva compania creada
         (data)=>{
           // success
-          console.log('new company created: '+data);
+          // console.log('new company created: '+data);
           this.dialogRef.close(data);
         },
         (error: HttpErrorResponse) => {
-          console.log('oops', error.message);
+          // console.log('oops', error.message);
           this.success = false;
           if (error.status == 404) {
             this.errorMessage = "No se encontaron registros";
@@ -141,7 +141,7 @@ export class NewCompanyComponent {
   }
   /*
   close() {
-    console.log("close()")
+    // console.log("close()")
     this.dialogRef.close();
   }
   */

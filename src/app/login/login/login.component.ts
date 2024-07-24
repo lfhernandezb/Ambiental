@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
       .pipe(first())
       .subscribe({
         next: () => {
-          console.log("login exitoso");
+          // console.log("login exitoso");
           // login exitoso
           this.router.navigate([this.returnUrl]);
           /*
@@ -62,7 +62,7 @@ export class LoginComponent implements OnInit {
           */
         },
         error: error => {
-          console.log("login no exitoso: error: " + error.toString());
+          // console.log("login no exitoso: error: " + error.toString());
           this.error = error;
           this.loading = false;
         }
@@ -70,13 +70,13 @@ export class LoginComponent implements OnInit {
   }
   /*
   error() {
-    //console.log(this.appService);
+    //// console.log(this.appService);
   	return this.authenticationService.error;
   }
   */
   ngOnInit(): void {
 
-    console.log("isAuthenticated: " + this.authenticationService.isAuthenticated());
+    // console.log("isAuthenticated: " + this.authenticationService.isAuthenticated());
 
     if (this.authenticationService.isAuthenticated()) {
       this.router.navigate(['/home']);

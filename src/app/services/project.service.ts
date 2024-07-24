@@ -44,7 +44,7 @@ export class ProjectService {
     this.getByDescriptionAndCompanyId(description, companyId).
       subscribe(
         (data)=>{
-          console.log(data);
+          // console.log(data);
           let projectList = data as Project[];
 
           if (projectList.length > 0) {
@@ -56,7 +56,7 @@ export class ProjectService {
 
         },
         (error) => {
-          console.log('oops', error);
+          // console.log('oops', error);
           //return null;
         }
     );

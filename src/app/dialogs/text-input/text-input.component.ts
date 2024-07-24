@@ -49,7 +49,7 @@ export class TextInputComponent {
     //this.modalMessage = data.message;
     this.finding = data.finding;
     this.text = data.modalText;
-    console.log(data)
+    // console.log(data)
   }
 
   ngOnInit() {
@@ -75,7 +75,7 @@ export class TextInputComponent {
 
   ok() {
     //let finding: Finding = {} as Finding;
-    console.log("ok()")
+    // console.log("ok()")
 
     this.result = {
       text: this.text
@@ -96,11 +96,11 @@ export class TextInputComponent {
       // en data queda la nueva compania creada
       (data)=>{
         // success
-        console.log('new company created: '+data);
+        // console.log('new company created: '+data);
         this.dialogRef.close(data);
       },
       (error: HttpErrorResponse) => {
-        console.log('oops', error.message);
+        // console.log('oops', error.message);
         this.success = false;
         if (error.status == 404) {
           this.errorMessage = "No se encontaron registros";

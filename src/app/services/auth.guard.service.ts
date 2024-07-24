@@ -32,9 +32,9 @@ export class AuthGuardService implements CanActivate, CanDeactivate<unknown>, Ca
   }
 
   checkLogin(url: string): true|UrlTree {
-    console.log("checkLogin: ")
+    // console.log("checkLogin: ")
     if (this.authService.isAuthenticated()) {
-      console.log("isAutenticated returned true");
+      // console.log("isAutenticated returned true");
       return true;
     }
 

@@ -38,8 +38,8 @@ export class AuthenticationService {
   public isAuthenticated() {
     /*
       const user = this.userValue;
-      //console.log("isAuthenticated user: " + user);
-      //console.log("isAuthenticated user && user.authdata: " + user && user.authdata);
+      //// console.log("isAuthenticated user: " + user);
+      //// console.log("isAuthenticated user && user.authdata: " + user && user.authdata);
       //return user && user.authdata;
       return user != null;
       //return false;
@@ -47,12 +47,12 @@ export class AuthenticationService {
     let ls = sessionStorage.getItem('user');
     if (ls) {
       if (JSON.parse(ls)) {
-        console.log('AuthenticationService::isAuthenticated returning true');
+        // console.log('AuthenticationService::isAuthenticated returning true');
         return true;
       }
     }
 
-    console.log('AuthenticationService::isAuthenticated returning false');
+    // console.log('AuthenticationService::isAuthenticated returning false');
     return false;
   }
 
@@ -72,7 +72,7 @@ export class AuthenticationService {
       return this.http.get<any>(`${environment.apiUrl}/api/login`, this.httpOptions)
       .pipe(map(
         (user: any) => {
-              console.log("login data: " + user);
+              // console.log("login data: " + user);
               //if (user.name) {
                 //let user: User = {} as User;
                 // store user details and basic auth credentials in local storage to keep user logged in between page refreshes

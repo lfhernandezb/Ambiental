@@ -61,7 +61,7 @@ export class OptionHtmlComponent implements OnInit {
     this.modalTitle = data.modalTitle;
     this.modalSelected = data.modalSelected;
     this.findingStates = data.findingStates;
-    console.log(data)
+    // console.log(data)
   }
 
   ngOnInit() {
@@ -81,7 +81,7 @@ export class OptionHtmlComponent implements OnInit {
   }
 
   ok() {
-    console.log("ok()")
+    // console.log("ok()")
 
     this.result = {
       findingStateId: this.ctrlFindingStateId.value
