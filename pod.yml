@@ -1,0 +1,18 @@
+# pod.yaml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: abiental-fe
+  labels:
+    app: ambiental-fe
+spec:
+  containers:
+  - name: ambiental-fe
+    image: lfhernandezb/ambiental-fe:latest
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 4200
