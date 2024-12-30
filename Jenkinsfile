@@ -6,13 +6,13 @@ node {
             url: 'https://github.com/lfhernandezb/Ambiental.git',
             branch: 'authtoken'
     }
-
+    /*
     stage('Build') {
 
        sh 'npm run build --configuration=qa'
 
     }
-
+    */
     stage("Docker build"){
         sh 'docker version'
         sh 'docker build -t ambiental-fe .'
