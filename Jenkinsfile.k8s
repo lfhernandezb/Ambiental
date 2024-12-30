@@ -2,7 +2,9 @@ node {
 
      stage("Git Clone"){
 
-        git credentialsId: 'GIT_HUB_CREDENTIALS', url: 'https://github.com/lfhernandezb/Ambiental.git'
+        git credentialsId: 'GIT_HUB_CREDENTIALS',
+            url: 'https://github.com/lfhernandezb/Ambiental.git',
+            branch: 'authtoken'
     }
 
     stage('Build') {
