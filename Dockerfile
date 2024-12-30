@@ -39,6 +39,6 @@ COPY --from=build /app/dist/ /usr/share/nginx/html
 
 #expose port
 
-EXPOSE 4200
+EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
