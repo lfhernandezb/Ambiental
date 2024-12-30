@@ -41,7 +41,7 @@ node {
         }
 
         stage('Deploy ambiental-fe') {
-          sshCommand remote: remote, command: "source ./.zshrc ; microk8s kubectl apply -f pod.yml"
+          sshCommand remote: remote, command: "source ./.zshrc ; export PATH=/Users/lfhernandez/anaconda3/bin:/Users/lfhernandez/anaconda3/condabin:/Users/lfhernandez/.nvm/versions/node/v14.17.3/bin:/Library/Frameworks/Python.framework/Versions/3.12/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin ; microk8s kubectl apply -f pod.yml"
         }
 
         stage('Put servive.yml onto k8smaster') {
@@ -49,7 +49,7 @@ node {
         }
 
         stage('Service ambiental-fe') {
-          sshCommand remote: remote, command: "source ./.zshrc ; microk8s kubectl apply -f service.yml"
+          sshCommand remote: remote, command: "source ./.zshrc ; export PATH=/Users/lfhernandez/anaconda3/bin:/Users/lfhernandez/anaconda3/condabin:/Users/lfhernandez/.nvm/versions/node/v14.17.3/bin:/Library/Frameworks/Python.framework/Versions/3.12/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin ; microk8s kubectl apply -f service.yml"
         }
     }
 
