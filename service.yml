@@ -10,4 +10,4 @@ spec:
   ports:
   - port: 4200
     targetPort: 4200
-  type: LoadBalancer
+  type: NodePort
