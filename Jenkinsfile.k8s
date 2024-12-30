@@ -5,9 +5,9 @@ node {
         git credentialsId: 'GIT_HUB_CREDENTIALS', url: 'https://github.com/lfhernandezb/Ambiental.git'
     }
 
-    stage('Gradle Build') {
+    stage('Build') {
 
-       sh './gradlew build'
+       sh 'npm run build --configuration=qa'
 
     }
 
