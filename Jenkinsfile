@@ -41,7 +41,7 @@ node {
         }
 
         stage('Deploy ambiental-fe') {
-          sshCommand remote: remote, command: "microk8s kubectl apply -f pod.yml"
+          sshCommand remote: remote, command: "/usr/local/bin/microk8s kubectl apply -f pod.yml"
         }
 
         stage('Put servive.yml onto k8smaster') {
@@ -49,7 +49,7 @@ node {
         }
 
         stage('Service ambiental-fe') {
-          sshCommand remote: remote, command: "microk8s kubectl apply -f service.yml"
+          sshCommand remote: remote, command: "/usr/local/bin/microk8s kubectl apply -f service.yml"
         }
     }
 
