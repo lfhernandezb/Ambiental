@@ -31,7 +31,7 @@ node {
     stage("SSH Into k8s Server") {
         def remote = [:]
         remote.name = 'K8S master'
-        remote.host = 'localhost'
+        remote.host = '192.168.1.170'
         remote.user = 'lfhernandez'
         remote.password = 'bl52b3rd'
         remote.allowAnyHosts = true
